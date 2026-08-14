@@ -39,7 +39,7 @@
             }
         }
 
-        /* Slow, ambient background canvas */
+        /* Ambient background canvas */
         #ambient-canvas {
             position: fixed;
             top: 0;
@@ -68,7 +68,7 @@
             }
         }
 
-        /* Static Quick Jump Links Bar - Squished on mobile to fit one line without scrolling */
+        /* Quick Jump Links Bar - Squished on mobile to fit one line without scrolling */
         .quick-nav {
             background: var(--surface);
             border: 2px solid var(--border);
@@ -225,7 +225,6 @@
             .subtitle { font-size: 17px; }
         }
 
-        /* Social / Professional Links - Forced 2 wide on mobile, centered */
         .social-links {
             display: grid;
             grid-template-columns: repeat(2, minmax(110px, 1fr));
@@ -273,7 +272,6 @@
             fill: currentColor;
         }
 
-        /* Sections */
         .section-block {
             margin-bottom: 45px;
             scroll-margin-top: 30px;
@@ -302,7 +300,6 @@
             .bio { font-size: 16px; }
         }
 
-        /* Core Technology Stack */
         .tech-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -330,7 +327,6 @@
             line-height: 1.4;
         }
 
-        /* Projects List */
         .projects-list {
             display: flex;
             flex-direction: column;
@@ -440,102 +436,6 @@
             background: var(--bg);
         }
 
-        /* Subpage Modal Overlay */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(3px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
-            padding: 15px;
-        }
-
-        .modal-container {
-            background: var(--surface);
-            border: 3px solid var(--border);
-            width: 100%;
-            max-width: 750px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 10px 10px 0px 0px var(--border);
-            padding: 24px;
-            position: relative;
-        }
-
-        @media (min-width: 768px) {
-            .modal-container { padding: 40px; }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 15px; right: 15px;
-            background: var(--border);
-            color: #ffffff;
-            border: 2px solid var(--border);
-            font-weight: 900;
-            padding: 5px 10px;
-            font-size: 11px;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-
-        @media (min-width: 768px) {
-            .modal-close { top: 20px; right: 20px; padding: 6px 12px; font-size: 12px; }
-        }
-
-        .modal-close:hover { background: var(--accent); }
-
-        .modal-tag {
-            font-size: 11px;
-            font-weight: 900;
-            background: var(--accent);
-            color: #fff;
-            padding: 3px 8px;
-            text-transform: uppercase;
-            display: inline-block;
-            margin-bottom: 12px;
-        }
-
-        .modal-title {
-            font-size: 22px;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-        }
-
-        @media (min-width: 768px) {
-            .modal-title { font-size: 26px; }
-        }
-
-        .modal-body p {
-            font-size: 14px;
-            line-height: 1.6;
-            color: var(--muted);
-            font-weight: 500;
-            margin-bottom: 16px;
-        }
-
-        .modal-spec-box {
-            background: var(--bg);
-            border: 2px solid var(--border);
-            padding: 16px;
-            margin-top: 20px;
-            font-family: monospace;
-            font-size: 12px;
-            overflow-x: auto;
-        }
-
-        .modal-spec-box h4 {
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            color: var(--fg);
-        }
-
-        /* General Boxes */
         .cert-box, .resume-box, .contact-box {
             border: 2px solid var(--border);
             padding: 18px;
@@ -609,9 +509,7 @@
             display: inline-block;
         }
 
-        .cert-badge:hover {
-            background: var(--accent);
-        }
+        .cert-badge:hover { background: var(--accent); }
 
         .cert-logo-space {
             border: 2px solid var(--border);
@@ -709,12 +607,10 @@
 </head>
 <body>
 
-    <!-- Ambient Floating Node Canvas Background -->
     <canvas id="ambient-canvas"></canvas>
 
     <div class="wrapper">
         
-        <!-- Static Quick Jump Links Bar (Squished onto one line on mobile) -->
         <nav class="quick-nav">
             <span class="quick-nav-title">Jump</span>
             <div class="quick-nav-links">
@@ -727,7 +623,6 @@
             </div>
         </nav>
 
-        <!-- Header -->
         <header>
             <div class="header-left">
                 <img src="assets/images/avatar.jpg" alt="Damon Ditrichs" class="profile-avatar">
@@ -748,7 +643,6 @@
             </div>
         </header>
 
-        <!-- About Section -->
         <div id="overview" class="section-block">
             <h2>// Overview</h2>
             <p class="bio">
@@ -756,7 +650,6 @@
             </p>
         </div>
 
-        <!-- Core Technology Stack -->
         <div id="tech-stack" class="section-block">
             <h2>// Core Technology Stack</h2>
             <div class="tech-grid">
@@ -775,19 +668,18 @@
             </div>
         </div>
 
-        <!-- Projects Section with Interactive Modals -->
+        <!-- Projects Section linking to standalone pages -->
         <div id="projects" class="section-block">
             <h2>// Systems & Infrastructure Documentation</h2>
             <div class="projects-list">
                 
-                <!-- Project 1 -->
                 <div class="project-item">
                     <img src="assets/images/homelab_icon.avif" alt="Homelab Architecture" class="project-preview">
                     <div class="project-content">
                         <div>
                             <div class="project-header">
                                 <div class="project-title">Proxmox VE Homelab Architecture</div>
-                                <a class="project-link" onclick="openModal('homelabModal')">Inspect Subpage &rarr;</a>
+                                <a href="homelab.html" class="project-link">View Project &rarr;</a>
                             </div>
                             <p class="project-desc">
                                 Deep dive into node specifications, storage pools (local-lvm & 4TB HDD), LXC cluster configurations, and container deployment topology.
@@ -801,14 +693,13 @@
                     </div>
                 </div>
 
-                <!-- Project 2 -->
                 <div class="project-item">
                     <img src="assets/images/network_topology_icon.avif" alt="Network Topology" class="project-preview">
                     <div class="project-content">
                         <div>
                             <div class="project-header">
                                 <div class="project-title">Network Topology & DNS Security</div>
-                                <a class="project-link" onclick="openModal('networkModal')">Inspect Subpage &rarr;</a>
+                                <a href="network.html" class="project-link">View Project &rarr;</a>
                             </div>
                             <p class="project-desc">
                                 Interactive layout of internal network routing, Pi-hole container blocklisting, Unbound DNSSEC iterative resolvers, and WireGuard VPN tunnels.
@@ -822,14 +713,13 @@
                     </div>
                 </div>
 
-                <!-- Project 3 -->
                 <div class="project-item">
                     <img src="assets/images/ticketing_system_icon.avif" alt="Ticketing System" class="project-preview">
                     <div class="project-content">
                         <div>
                             <div class="project-header">
                                 <div class="project-title">IT Support & Ticketing System</div>
-                                <a class="project-link" onclick="openModal('ticketsModal')">Inspect Subpage &rarr;</a>
+                                <a href="tickets.html" class="project-link">View Project &rarr;</a>
                             </div>
                             <p class="project-desc">
                                 Demonstration helpdesk ticketing environment tracking incident resolution workflows, SLA monitoring, and IT support queues.
@@ -846,7 +736,6 @@
             </div>
         </div>
 
-        <!-- Certification Section -->
         <div id="certs" class="section-block">
             <h2>// Certifications</h2>
             <div class="cert-box">
@@ -863,7 +752,6 @@
             </div>
         </div>
 
-        <!-- Resume Section -->
         <div id="resume" class="section-block">
             <h2>// Curriculum Vitae</h2>
             <div class="resume-box">
@@ -878,7 +766,6 @@
             </div>
         </div>
 
-        <!-- Contact Section -->
         <div id="contact" class="section-block">
             <h2>// Direct Contact</h2>
             <div class="contact-box">
@@ -887,7 +774,6 @@
             </div>
         </div>
 
-        <!-- Footer -->
         <footer>
             <span>&copy; 2026 Damon Ditrichs</span>
             <span><a href="https://status.damonditrichs.local" target="_blank" style="color: inherit; text-decoration: underline;">Uptime Status [Live]</a></span>
@@ -895,71 +781,7 @@
         </footer>
     </div>
 
-    <!-- SUBPAGE MODALS -->
-    <div id="homelabModal" class="modal-overlay">
-        <div class="modal-container">
-            <button class="modal-close" onclick="closeModal('homelabModal')">Close [X]</button>
-            <div class="modal-tag">Subpage Instance // Infrastructure Log</div>
-            <div class="modal-title">Proxmox VE Homelab Architecture</div>
-            <div class="modal-body">
-                <p>This environment is managed on a bare-metal hypervisor host utilizing dedicated storage pools and discrete containerized contexts to isolate services cleanly.</p>
-                <p><strong>Storage Mapping Strategy:</strong> The root file system and fast-access databases operate on a local-lvm partition mapped to the high-speed internal SSD, while sequential storage buckets (media libraries, long-term backups, metrics logs) utilize a dedicated 4TB hard drive mount point.</p>
-                <div class="modal-spec-box">
-                    <h4>Active Node Topology Layout</h4>
-                    <p style="color:var(--server-fg); margin:0;">
-                        [Node: Proxmox Host] <br>
-                        ├── LXC 100: Pi-hole + Unbound DNSSEC Resolver<br>
-                        ├── LXC 101: Uptime Kuma Network Monitoring<br>
-                        ├── LXC 102: Jellyfin Media Streaming Engine<br>
-                        └── Ubuntu VM 103: Docker Engine (Minecraft & Auxiliary Compose stacks)
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="networkModal" class="modal-overlay">
-        <div class="modal-container">
-            <button class="modal-close" onclick="closeModal('networkModal')">Close [X]</button>
-            <div class="modal-tag">Subpage Instance // Security Layer</div>
-            <div class="modal-title">Network Topology & DNS Security</div>
-            <div class="modal-body">
-                <p>Internal network infrastructure relies on strict DNS filtering and recursive query processing to eliminate outbound tracking headers and safeguard local client nodes.</p>
-                <p><strong>DNS Path:</strong> Local client queries target Pi-hole running inside container 100. Unresolved external lookups are passed securely via recursive local validation through Unbound over encrypted channels, completely circumventing upstream ISP telemetry collection.</p>
-                <div class="modal-spec-box">
-                    <h4>Tunneling & Access Control</h4>
-                    <p style="color:var(--server-fg); margin:0;">
-                        • WireGuard Gateway deployed for encrypted remote management tunnels.<br>
-                        • Local firewall rule sets restricting inter-VLAN guest traffic.<br>
-                        • Real-time alert dispatch configured through Uptime Kuma webhooks.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ticketsModal" class="modal-overlay">
-        <div class="modal-container">
-            <button class="modal-close" onclick="closeModal('ticketsModal')">Close [X]</button>
-            <div class="modal-tag">Subpage Instance // Support Environment</div>
-            <div class="modal-title">IT Support & Ticketing System</div>
-            <div class="modal-body">
-                <p>Demonstration helpdesk instance modeled after corporate incident management structures, intended to test triage automation, priority queuing, and user asset tracking.</p>
-                <p><strong>Workflow Protocol:</strong> Incoming alerts from system monitors automatically generate tickets categorized by severity level (Critical Hardware Fault, Network Latency Spike, Service Degradation), ensuring rapid remediation cycles.</p>
-                <div class="modal-spec-box">
-                    <h4>Active Queue Sample Metrics</h4>
-                    <p style="color:var(--server-fg); margin:0;">
-                        • Mean Time to Resolution (MTTR): 14 Minutes<br>
-                        • Open Incidents: 0 (All systems nominal)<br>
-                        • Automated Escalation Triggers: Enabled
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Ambient Floating Node / Network Topology Background Animation
         const canvas = document.getElementById('ambient-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -1021,19 +843,6 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
-
-        // Modal Controls
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal-overlay')) {
-                event.target.style.display = 'none';
-            }
-        }
     </script>
 </body>
 </html>
