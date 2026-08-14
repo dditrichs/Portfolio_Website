@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Damon Ditrichs — Systems & Infrastructure Engineer</title>
+    <style>
+        :root {
+            --bg: #f4f4f0;
+            --surface: #ffffff;
+            --fg: #111111;
+            --muted: #555555;
+            --accent: #b91c1c;
+            --border: #111111;
+            --server-bg: #1e1e24;
+            --server-fg: #d4d4d8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 40px 20px 80px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 900px;
+            border: 3px solid var(--border);
+            background: var(--surface);
+            box-shadow: 8px 8px 0px 0px var(--border);
+            padding: 50px;
+        }
+
+        /* Server Telemetry Banner */
+        .server-banner {
+            background: var(--server-bg);
+            color: var(--server-fg);
+            border: 2px solid var(--border);
+            padding: 14px 20px;
+            margin-bottom: 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 4px 4px 0px 0px var(--border);
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .server-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .server-pulse {
+            width: 10px;
+            height: 10px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        .server-stats {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 4px 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .stat-badge span {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 3px solid var(--border);
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        .profile-avatar {
+            width: 160px;
+            height: 160px;
+            border: 3px solid var(--border);
+            object-fit: cover;
+            background: var(--bg);
+            box-shadow: 3px 3px 0px 0px var(--border);
+        }
+
+        h1 {
+            font-size: 46px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            line-height: 1.05;
+        }
+
+        .subtitle {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Sections */
+        .section-block {
+            margin-bottom: 45px;
+        }
+
+        h2 {
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: var(--border);
+            color: #ffffff;
+            padding: 6px 12px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .bio {
+            font-size: 16px;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* Core Technology Stack */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .tech-card {
+            border: 2px solid var(--border);
+            padding: 16px 18px;
+            background: var(--bg);
+        }
+
+        .tech-card h3 {
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            color: var(--accent);
+        }
+
+        .tech-card p {
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* Projects List */
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .project-item {
+            border: 2px solid var(--border);
+            background: var(--surface);
+            box-shadow: 4px 4px 0px 0px var(--border);
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            overflow: hidden;
+            transition: transform 0.05s ease, box-shadow 0.05s ease;
+        }
+
+        @media (max-width: 768px) {
+            .project-item { grid-template-columns: 1fr; }
+        }
+
+        .project-item:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px var(--border);
+        }
+
+        .project-preview {
+            width: 100%;
+            height: 100%;
+            min-height: 140px;
+            background: var(--bg);
+            border-right: 2px solid var(--border);
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .project-preview {
+                border-right: none;
+                border-bottom: 2px solid var(--border);
+                max-height: 160px;
+            }
+        }
+
+        .project-content {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .project-title {
+            font-size: 17px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .project-link {
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: var(--border);
+            color: #ffffff;
+            padding: 5px 10px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .project-link:hover { background: var(--accent); }
+
+        .project-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid var(--border);
+            padding: 2px 6px;
+            background: var(--bg);
+        }
+
+        /* Subpage Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(3px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-container {
+            background: var(--surface);
+            border: 3px solid var(--border);
+            width: 100%;
+            max-width: 750px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 10px 10px 0px 0px var(--border);
+            padding: 40px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: var(--border);
+            color: #ffffff;
+            border: 2px solid var(--border);
+            font-weight: 900;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .modal-close:hover { background: var(--accent); }
+
+        .modal-tag {
+            font-size: 11px;
+            font-weight: 900;
+            background: var(--accent);
+            color: #fff;
+            padding: 3px 8px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .modal-title {
+            font-size: 26px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .modal-body p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--muted);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .modal-spec-box {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            padding: 16px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .modal-spec-box h4 {
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: var(--fg);
+        }
+
+        /* General Boxes */
+        .cert-box, .resume-box, .contact-box {
+            border: 2px solid var(--border);
+            padding: 22px;
+            background: var(--bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: 3px 3px 0px 0px var(--border);
+        }
+
+        /* Cert Box Layout with Far-Right Dedicated Image Space */
+        .cert-box {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .cert-box {
+                grid-template-columns: 1fr;
+                justify-items: center;
+                text-align: center;
+            }
+        }
+
+        .cert-info h3, .resume-text h3 {
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .cert-info p, .resume-text p {
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .cert-badge {
+            background: var(--border);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            display: inline-block;
+        }
+
+        .cert-logo-space {
+            border: 2px solid var(--border);
+            background: #ffffff;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 0px 0px var(--border);
+        }
+
+        .cert-logo {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .resume-actions { display: flex; gap: 10px; }
+
+        .btn {
+            background: var(--border);
+            color: #ffffff;
+            border: 2px solid var(--border);
+            padding: 8px 14px;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-decoration: none;
+            box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .btn:hover { background: var(--accent); }
+        .btn-outline { background: var(--bg); color: var(--fg); }
+
+        .contact-text { font-size: 14px; font-weight: 700; }
+
+        .contact-btn {
+            background: var(--accent);
+            color: #ffffff;
+            border: 2px solid var(--border);
+            padding: 10px 20px;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-decoration: none;
+            box-shadow: 3px 3px 0px 0px var(--border);
+        }
+
+        .contact-btn:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px 0px var(--border);
+        }
+
+        footer {
+            border-top: 2px solid var(--border);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        
+        <!-- Server Self-Hosted Live Telemetry Banner -->
+        <div class="server-banner">
+            <div class="server-left">
+                <div class="server-pulse"></div>
+                <div><b>HOSTED ON PROXMOX VE</b> // LXC-104-NGINX</div>
+            </div>
+            <div class="server-stats">
+                <div class="stat-badge">CPU: <span>1.4%</span></div>
+                <div class="stat-badge">RAM: <span>248MB / 1GB</span></div>
+                <div class="stat-badge">UPTIME: <span>18d 4h</span></div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header>
+            <div class="header-left">
+                <img src="https://media.licdn.com/dms/image/v2/D4E03AQEoHs6hKM2AXA/profile-displayphoto-shrink_800_800/B4EZ8ZrtBcJMAY-/0/1782842315129?e=1788393600&v=beta&t=GNJ8DgIZbPxWdyX1CTHxO9rxmanbfX58rw97L2_4QmE" alt="Damon Ditrichs" class="profile-avatar">
+                <div>
+                    <h1>Damon Ditrichs</h1>
+                    <div class="subtitle">Systems Administration & Infrastructure Engineering</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- About Section -->
+        <div class="section-block">
+            <h2>// Overview</h2>
+            <p class="bio">
+                Infrastructure engineer specializing in bare-metal virtualization, network-level security, and self-hosted container ecosystems. Focused on clean automation, strict documentation, and fault-tolerant local architecture for robust systems operations and high-availability deployments.
+            </p>
+        </div>
+
+        <!-- Core Technology Stack -->
+        <div class="section-block">
+            <h2>// Core Technology Stack</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h3>Virtualization & OS</h3>
+                    <p>Deploying and managing high-availability hypervisors using Proxmox VE alongside enterprise Linux distributions like Ubuntu Server and Debian to ensure isolated, stable node environments.</p>
+                </div>
+                <div class="tech-card">
+                    <h3>Networking & Security</h3>
+                    <p>Configuring robust edge network security layers, including network-wide ad blocking with Pi-hole, secure recursive DNS resolution via Unbound DNSSEC, and encrypted WireGuard remote tunnels.</p>
+                </div>
+                <div class="tech-card">
+                    <h3>Containerization</h3>
+                    <p>Orchestrating modular microservices and containerized application stacks through Docker, Docker Compose, and native systemd service management for streamlined lifecycle control.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Section with Interactive Modals -->
+        <div class="section-block">
+            <h2>// Systems & Infrastructure Documentation</h2>
+            <div class="projects-list">
+                
+                <!-- Project 1 -->
+                <div class="project-item">
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=400&q=80" alt="Homelab Architecture" class="project-preview">
+                    <div class="project-content">
+                        <div>
+                            <div class="project-header">
+                                <div class="project-title">Proxmox VE Homelab Architecture</div>
+                                <a class="project-link" onclick="openModal('homelabModal')">Inspect Subpage &rarr;</a>
+                            </div>
+                            <p class="project-desc">
+                                Deep dive into node specifications, storage pools (local-lvm & 4TB HDD), LXC cluster configurations, and container deployment topology.
+                            </p>
+                        </div>
+                        <div class="tag-list">
+                            <span class="tag">Proxmox VE</span>
+                            <span class="tag">LXC / VMs</span>
+                            <span class="tag">Storage Pools</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-item">
+                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=400&q=80" alt="Network Topology" class="project-preview">
+                    <div class="project-content">
+                        <div>
+                            <div class="project-header">
+                                <div class="project-title">Network Topology & DNS Security</div>
+                                <a class="project-link" onclick="openModal('networkModal')">Inspect Subpage &rarr;</a>
+                            </div>
+                            <p class="project-desc">
+                                Interactive layout of internal network routing, Pi-hole container blocklisting, Unbound DNSSEC iterative resolvers, and WireGuard VPN tunnels.
+                            </p>
+                        </div>
+                        <div class="tag-list">
+                            <span class="tag">Topology</span>
+                            <span class="tag">Pi-hole & Unbound</span>
+                            <span class="tag">WireGuard</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-item">
+                    <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=400&q=80" alt="Ticketing System" class="project-preview">
+                    <div class="project-content">
+                        <div>
+                            <div class="project-header">
+                                <div class="project-title">IT Support & Ticketing System</div>
+                                <a class="project-link" onclick="openModal('ticketsModal')">Inspect Subpage &rarr;</a>
+                            </div>
+                            <p class="project-desc">
+                                Demonstration helpdesk ticketing environment tracking incident resolution workflows, SLA monitoring, and IT support queues.
+                            </p>
+                        </div>
+                        <div class="tag-list">
+                            <span class="tag">Helpdesk</span>
+                            <span class="tag">Incident Management</span>
+                            <span class="tag">Workflow Automation</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Certification Section -->
+        <div class="section-block">
+            <h2>// Certifications</h2>
+            <div class="cert-box">
+                <div class="cert-info">
+                    <h3>CompTIA A+ Certified Professional</h3>
+                    <p>Core 1 &amp; Core 2 Validation: Hardware troubleshooting, OS deployment, and core IT infrastructure.</p>
+                    <div class="cert-badge">Verified Credential</div>
+                </div>
+                <div class="cert-logo-space">
+                    <img src="https://www.comptia.org/_next/image/?url=https%3A%2F%2Fimages3.cmp.optimizely.com%2F83adafb0b71111ef888eca5646afc7d8&w=256&q=90" alt="CompTIA A+ Badge" class="cert-logo">
+                </div>
+            </div>
+        </div>
+
+        <!-- Resume Section -->
+        <div class="section-block">
+            <h2>// Curriculum Vitae</h2>
+            <div class="resume-box">
+                <div class="resume-text">
+                    <h3>Professional Resume</h3>
+                    <p>Review detailed academic background, systems administration experience, and project work history.</p>
+                </div>
+                <div class="resume-actions">
+                    <a href="#view" class="btn btn-outline" onclick="alert('Opening curriculum vitae layout specimen.')">View PDF</a>
+                    <a href="#download" class="btn" onclick="alert('Triggering binary document package download.')">Download &darr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="section-block">
+            <h2>// Direct Contact</h2>
+            <div class="contact-box">
+                <div class="contact-text">Open for systems administration and infrastructure engineering inquiries.</div>
+                <a href="mailto:damon@ditrichs.local" class="contact-btn">Send Email &rarr;</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <span>&copy; 2026 Damon Ditrichs</span>
+            <span>Local Instance: http://10.0.0.50</span>
+        </footer>
+    </div>
+
+    <!-- SUBPAGE MODALS (Embedded interactive instances) -->
+
+    <!-- Homelab Modal -->
+    <div id="homelabModal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeModal('homelabModal')">Close [X]</button>
+            <div class="modal-tag">Subpage Instance // Infrastructure Log</div>
+            <div class="modal-title">Proxmox VE Homelab Architecture</div>
+            <div class="modal-body">
+                <p>This environment is managed on a bare-metal hypervisor host utilizing dedicated storage pools and discrete containerized contexts to isolate services cleanly.</p>
+                <p><strong>Storage Mapping Strategy:</strong> The root file system and fast-access databases operate on a local-lvm partition mapped to the high-speed internal SSD, while sequential storage buckets (media libraries, long-term backups, metrics logs) utilize a dedicated 4TB hard drive mount point.</p>
+                <div class="modal-spec-box">
+                    <h4>Active Node Topology Layout</h4>
+                    <p style="color:var(--server-fg); margin:0;">
+                        [Node: Proxmox Host] <br>
+                        ├── LXC 100: Pi-hole + Unbound DNSSEC Resolver<br>
+                        ├── LXC 101: Uptime Kuma Network Monitoring<br>
+                        ├── LXC 102: Jellyfin Media Streaming Engine<br>
+                        └── Ubuntu VM 103: Docker Engine (Minecraft & Auxiliary Compose stacks)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Network Modal -->
+    <div id="networkModal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeModal('networkModal')">Close [X]</button>
+            <div class="modal-tag">Subpage Instance // Security Layer</div>
+            <div class="modal-title">Network Topology & DNS Security</div>
+            <div class="modal-body">
+                <p>Internal network infrastructure relies on strict DNS filtering and recursive query processing to eliminate outbound tracking headers and safeguard local client nodes.</p>
+                <p><strong>DNS Path:</strong> Local client queries target Pi-hole running inside container 100. Unresolved external lookups are passed securely via recursive local validation through Unbound over encrypted channels, completely circumventing upstream ISP telemetry collection.</p>
+                <div class="modal-spec-box">
+                    <h4>Tunneling & Access Control</h4>
+                    <p style="color:var(--server-fg); margin:0;">
+                        • WireGuard Gateway deployed for encrypted remote management tunnels.<br>
+                        • Local firewall rule sets restricting inter-VLAN guest traffic.<br>
+                        • Real-time alert dispatch configured through Uptime Kuma webhooks.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tickets Modal -->
+    <div id="ticketsModal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeModal('ticketsModal')">Close [X]</button>
+            <div class="modal-tag">Subpage Instance // Support Environment</div>
+            <div class="modal-title">IT Support & Ticketing System</div>
+            <div class="modal-body">
+                <p>Demonstration helpdesk instance modeled after corporate incident management structures, intended to test triage automation, priority queuing, and user asset tracking.</p>
+                <p><strong>Workflow Protocol:</strong> Incoming alerts from system monitors automatically generate tickets categorized by severity level (Critical Hardware Fault, Network Latency Spike, Service Degradation), ensuring rapid remediation cycles.</p>
+                <div class="modal-spec-box">
+                    <h4>Active Queue Sample Metrics</h4>
+                    <p style="color:var(--server-fg); margin:0;">
+                        • Mean Time to Resolution (MTTR): 14 Minutes<br>
+                        • Open Incidents: 0 (All systems nominal)<br>
+                        • Automated Escalation Triggers: Enabled
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
