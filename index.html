@@ -17,16 +17,26 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: var(--bg);
             color: var(--fg);
             font-family: Arial, Helvetica, sans-serif;
-            padding: 40px 20px 80px 20px;
+            padding: 10px 4px 140px 4px;
             display: flex;
             justify-content: center;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 40px 20px 160px 20px;
+            }
         }
 
         /* Slow, ambient background canvas */
@@ -38,7 +48,7 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.12; /* Very subtle so it's not distracting */
+            opacity: 0.12;
         }
 
         .wrapper {
@@ -49,7 +59,72 @@
             border: 3px solid var(--border);
             background: var(--surface);
             box-shadow: 8px 8px 0px 0px var(--border);
-            padding: 50px;
+            padding: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .wrapper {
+                padding: 50px;
+            }
+        }
+
+        /* Sticky Quick Links Bar */
+        .quick-nav {
+            position: sticky;
+            top: 0;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            padding: 10px 15px;
+            margin: -12px -12px 25px -12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            z-index: 10;
+            box-shadow: 0px 4px 0px 0px var(--border);
+        }
+
+        @media (min-width: 768px) {
+            .quick-nav {
+                margin: -50px -50px 35px -50px;
+            }
+        }
+
+        .quick-nav-title {
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: var(--border);
+            color: #ffffff;
+            padding: 4px 8px;
+        }
+
+        .quick-nav-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .quick-link-btn {
+            position: relative;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--fg);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 4px 8px;
+            box-shadow: 1px 1px 0px 0px var(--border);
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
+        }
+
+        .quick-link-btn:hover {
+            background: var(--accent);
+            color: #ffffff;
+            transform: translate(-1px, -1px);
+            box-shadow: 2px 2px 0px 0px var(--border);
         }
 
         /* Header */
@@ -66,14 +141,25 @@
 
         .header-left {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 22px;
-            flex-wrap: wrap;
+            text-align: center;
+            gap: 18px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .header-left {
+                flex-direction: row;
+                align-items: center;
+                text-align: left;
+                justify-content: flex-start;
+            }
         }
 
         .profile-avatar {
-            width: 160px;
-            height: 160px;
+            width: 150px;
+            height: 150px;
             border: 3px solid var(--border);
             object-fit: cover;
             background: var(--bg);
@@ -81,7 +167,7 @@
         }
 
         h1 {
-            font-size: 46px;
+            font-size: 34px;
             font-weight: 900;
             letter-spacing: -1.5px;
             text-transform: uppercase;
@@ -89,8 +175,12 @@
             line-height: 1.05;
         }
 
+        @media (min-width: 768px) {
+            h1 { font-size: 46px; }
+        }
+
         .subtitle {
-            font-size: 17px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--accent);
             text-transform: uppercase;
@@ -98,20 +188,36 @@
             margin-bottom: 14px;
         }
 
-        /* Social / Professional Links */
+        @media (min-width: 768px) {
+            .subtitle { font-size: 17px; }
+        }
+
+        /* Social / Professional Links - Forced 2 wide on mobile, centered */
         .social-links {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(110px, 1fr));
             gap: 10px;
-            flex-wrap: wrap;
+            width: 100%;
+            max-width: 260px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .social-links {
+                display: flex;
+                max-width: none;
+                margin: 0;
+            }
         }
 
         .social-btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             background: var(--bg);
             border: 2px solid var(--border);
-            padding: 5px 10px;
+            padding: 8px 10px;
             font-size: 11px;
             font-weight: 900;
             text-transform: uppercase;
@@ -137,6 +243,7 @@
         /* Sections */
         .section-block {
             margin-bottom: 45px;
+            scroll-margin-top: 70px;
         }
 
         h2 {
@@ -152,9 +259,13 @@
         }
 
         .bio {
-            font-size: 16px;
+            font-size: 15px;
             line-height: 1.7;
             font-weight: 500;
+        }
+
+        @media (min-width: 768px) {
+            .bio { font-size: 16px; }
         }
 
         /* Core Technology Stack */
@@ -229,10 +340,14 @@
         }
 
         .project-content {
-            padding: 22px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
+
+        @media (min-width: 768px) {
+            .project-content { padding: 22px; }
         }
 
         .project-header {
@@ -245,9 +360,13 @@
         }
 
         .project-title {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 900;
             text-transform: uppercase;
+        }
+
+        @media (min-width: 768px) {
+            .project-title { font-size: 17px; }
         }
 
         .project-link {
@@ -297,7 +416,7 @@
             justify-content: center;
             align-items: center;
             z-index: 1001;
-            padding: 20px;
+            padding: 15px;
         }
 
         .modal-container {
@@ -308,21 +427,29 @@
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 10px 10px 0px 0px var(--border);
-            padding: 40px;
+            padding: 24px;
             position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .modal-container { padding: 40px; }
         }
 
         .modal-close {
             position: absolute;
-            top: 20px; right: 20px;
+            top: 15px; right: 15px;
             background: var(--border);
             color: #ffffff;
             border: 2px solid var(--border);
             font-weight: 900;
-            padding: 6px 12px;
-            font-size: 12px;
+            padding: 5px 10px;
+            font-size: 11px;
             cursor: pointer;
             text-transform: uppercase;
+        }
+
+        @media (min-width: 768px) {
+            .modal-close { top: 20px; right: 20px; padding: 6px 12px; font-size: 12px; }
         }
 
         .modal-close:hover { background: var(--accent); }
@@ -339,10 +466,14 @@
         }
 
         .modal-title {
-            font-size: 26px;
+            font-size: 22px;
             font-weight: 900;
             text-transform: uppercase;
             margin-bottom: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .modal-title { font-size: 26px; }
         }
 
         .modal-body p {
@@ -360,6 +491,7 @@
             margin-top: 20px;
             font-family: monospace;
             font-size: 12px;
+            overflow-x: auto;
         }
 
         .modal-spec-box h4 {
@@ -372,7 +504,7 @@
         /* General Boxes */
         .cert-box, .resume-box, .contact-box {
             border: 2px solid var(--border);
-            padding: 22px;
+            padding: 18px;
             background: var(--bg);
             display: flex;
             justify-content: space-between;
@@ -380,6 +512,10 @@
             flex-wrap: wrap;
             gap: 20px;
             box-shadow: 3px 3px 0px 0px var(--border);
+        }
+
+        @media (min-width: 768px) {
+            .cert-box, .resume-box, .contact-box { padding: 22px; }
         }
 
         .cert-box {
@@ -398,10 +534,14 @@
         }
 
         .cert-info h3, .resume-text h3 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 900;
             text-transform: uppercase;
             margin-bottom: 4px;
+        }
+
+        @media (min-width: 768px) {
+            .cert-info h3, .resume-text h3 { font-size: 16px; }
         }
 
         .cert-info p, .resume-text p {
@@ -416,6 +556,11 @@
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        @media (min-width: 768px) {
+            .cert-actions { justify-content: flex-start; }
         }
 
         .cert-badge {
@@ -451,7 +596,11 @@
             display: block;
         }
 
-        .resume-actions { display: flex; gap: 10px; }
+        .resume-actions { display: flex; gap: 10px; width: 100%; justify-content: center; }
+
+        @media (min-width: 768px) {
+            .resume-actions { width: auto; justify-content: flex-start; }
+        }
 
         .btn {
             background: var(--border);
@@ -469,7 +618,25 @@
         .btn:hover { background: var(--accent); }
         .btn-outline { background: var(--bg); color: var(--fg); }
 
-        .contact-text { font-size: 14px; font-weight: 700; }
+        .contact-text { font-size: 14px; font-weight: 700; text-align: center; }
+
+        @media (min-width: 768px) {
+            .contact-text { text-align: left; }
+        }
+
+        .contact-box {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .contact-box {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+        }
 
         .contact-btn {
             background: var(--accent);
@@ -493,11 +660,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             text-transform: uppercase;
             flex-wrap: wrap;
             gap: 10px;
+            margin-top: 30px;
+        }
+
+        @media (min-width: 768px) {
+            footer { font-size: 11px; }
         }
     </style>
 </head>
@@ -508,6 +680,19 @@
 
     <div class="wrapper">
         
+        <!-- Sticky Quick Jump Links Bar -->
+        <nav class="quick-nav">
+            <span class="quick-nav-title">Quick Jump</span>
+            <div class="quick-nav-links">
+                <a href="#overview" class="quick-link-btn">Overview</a>
+                <a href="#tech-stack" class="quick-link-btn">Tech</a>
+                <a href="#projects" class="quick-link-btn">Projects</a>
+                <a href="#certs" class="quick-link-btn">Certs</a>
+                <a href="#resume" class="quick-link-btn">Resume</a>
+                <a href="#contact" class="quick-link-btn">Contact</a>
+            </div>
+        </nav>
+
         <!-- Header -->
         <header>
             <div class="header-left">
@@ -530,7 +715,7 @@
         </header>
 
         <!-- About Section -->
-        <div class="section-block">
+        <div id="overview" class="section-block">
             <h2>// Overview</h2>
             <p class="bio">
                 Infrastructure engineer specializing in bare-metal virtualization, network-level security, and self-hosted container ecosystems. Focused on clean automation, strict documentation, and fault-tolerant local architecture for robust systems operations and high-availability deployments.
@@ -538,7 +723,7 @@
         </div>
 
         <!-- Core Technology Stack -->
-        <div class="section-block">
+        <div id="tech-stack" class="section-block">
             <h2>// Core Technology Stack</h2>
             <div class="tech-grid">
                 <div class="tech-card">
@@ -557,7 +742,7 @@
         </div>
 
         <!-- Projects Section with Interactive Modals -->
-        <div class="section-block">
+        <div id="projects" class="section-block">
             <h2>// Systems & Infrastructure Documentation</h2>
             <div class="projects-list">
                 
@@ -628,7 +813,7 @@
         </div>
 
         <!-- Certification Section -->
-        <div class="section-block">
+        <div id="certs" class="section-block">
             <h2>// Certifications</h2>
             <div class="cert-box">
                 <div class="cert-info">
@@ -645,7 +830,7 @@
         </div>
 
         <!-- Resume Section -->
-        <div class="section-block">
+        <div id="resume" class="section-block">
             <h2>// Curriculum Vitae</h2>
             <div class="resume-box">
                 <div class="resume-text">
@@ -660,7 +845,7 @@
         </div>
 
         <!-- Contact Section -->
-        <div class="section-block">
+        <div id="contact" class="section-block">
             <h2>// Direct Contact</h2>
             <div class="contact-box">
                 <div class="contact-text">Open for systems administration and infrastructure engineering inquiries.</div>
@@ -741,7 +926,6 @@
 
     <script>
         // Ambient Floating Node / Network Topology Background Animation
-        // Renders slow, smooth, subtle connecting dots that mimic a gentle node map.
         const canvas = document.getElementById('ambient-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -749,13 +933,13 @@
         canvas.height = window.innerHeight;
 
         const particles = [];
-        const particleCount = Math.floor((canvas.width * canvas.height) / 18000); // density control
+        const particleCount = Math.floor((canvas.width * canvas.height) / 18000);
 
         for (let i = 0; i < particleCount; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.4, // Very slow, gentle drift velocity
+                vx: (Math.random() - 0.5) * 0.4,
                 vy: (Math.random() - 0.5) * 0.4,
                 radius: Math.random() * 1.5 + 1
             });
@@ -764,7 +948,6 @@
         function animateAmbient() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw connecting lines between close nodes
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
@@ -772,7 +955,7 @@
                     const dist = Math.sqrt(dx * dx + dy * dy);
 
                     if (dist < 120) {
-                        ctx.strokeStyle = `rgba(185, 28, 28, ${1 - dist / 120})`; // Fades out with distance
+                        ctx.strokeStyle = `rgba(185, 28, 28, ${1 - dist / 120})`;
                         ctx.lineWidth = 0.8;
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
@@ -782,13 +965,11 @@
                 }
             }
 
-            // Move and draw nodes
             ctx.fillStyle = '#b91c1c';
             for (let p of particles) {
                 p.x += p.vx;
                 p.y += p.vy;
 
-                // Bounce off edges smoothly
                 if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
                 if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
