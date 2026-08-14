@@ -111,6 +111,23 @@
             }
         }
 
+        /* Responsive title toggle styling */
+        .desktop-only {
+            display: none;
+        }
+        .mobile-only {
+            display: inline;
+        }
+
+        @media (min-width: 768px) {
+            .desktop-only {
+                display: inline;
+            }
+            .mobile-only {
+                display: none;
+            }
+        }
+
         .quick-nav-links {
             display: flex;
             gap: 2px;
@@ -612,7 +629,10 @@
     <div class="wrapper">
         
         <nav class="quick-nav">
-            <span class="quick-nav-title">Jump</span>
+            <span class="quick-nav-title">
+                <span class="mobile-only">Jump</span>
+                <span class="desktop-only">Quick Jump</span>
+            </span>
             <div class="quick-nav-links">
                 <a href="#overview" class="quick-link-btn">Overview</a>
                 <a href="#tech-stack" class="quick-link-btn">Tech</a>
