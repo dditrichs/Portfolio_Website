@@ -1,1 +1,142 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Support & Ticketing System — Damon Ditrichs</title>
+    <style>
+        :root {
+            --bg: #f4f4f0;
+            --surface: #ffffff;
+            --fg: #111111;
+            --muted: #555555;
+            --accent: #b91c1c;
+            --border: #111111;
+            --server-fg: #d4d4d8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 10px 4px 140px 4px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        @media (min-width: 768px) { body { padding: 40px 20px 160px 20px; } }
+        .wrapper {
+            width: 100%;
+            max-width: 900px;
+            border: 3px solid var(--border);
+            background: var(--surface);
+            box-shadow: 8px 8px 0px 0px var(--border);
+            padding: 12px;
+        }
+        @media (min-width: 768px) { .wrapper { padding: 50px; } }
+        .quick-nav {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            padding: 6px 10px;
+            margin: -12px -12px 25px -12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0px 4px 0px 0px var(--border);
+        }
+        @media (min-width: 768px) { .quick-nav { margin: -50px -50px 35px -50px; padding: 10px 15px; } }
+        .quick-nav-title {
+            font-size: 9px;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: var(--border);
+            color: #ffffff;
+            padding: 3px 6px;
+        }
+        @media (min-width: 768px) { .quick-nav-title { font-size: 11px; } }
+        .quick-link-btn {
+            font-size: 9px;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--fg);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 4px 8px;
+            box-shadow: 1px 1px 0px 0px var(--border);
+        }
+        @media (min-width: 768px) { .quick-link-btn { font-size: 10px; } }
+        .quick-link-btn:hover { background: var(--accent); color: #ffffff; }
+        .section-block { margin-bottom: 30px; }
+        .project-tag {
+            font-size: 11px;
+            font-weight: 900;
+            background: var(--accent);
+            color: #fff;
+            padding: 3px 8px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+        @media (min-width: 768px) { h1 { font-size: 34px; } }
+        .bio {
+            font-size: 14px;
+            line-height: 1.7;
+            font-weight: 500;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+        @media (min-width: 768px) { .bio { font-size: 16px; } }
+        .spec-box {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            padding: 16px;
+            margin-top: 25px;
+            font-family: monospace;
+            font-size: 12px;
+            box-shadow: 3px 3px 0px 0px var(--border);
+        }
+        .spec-box h4 {
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: var(--fg);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="quick-nav">
+            <span class="quick-nav-title">Project Subpage</span>
+            <a href="index.html" class="quick-link-btn">&larr; Back to Home</a>
+        </nav>
+
+        <div class="section-block">
+            <div class="project-tag">Support Environment</div>
+            <h1>IT Support & Ticketing System</h1>
+            <p class="bio">
+                Demonstration helpdesk instance modeled after corporate incident management structures, intended to test triage automation, priority queuing, and user asset tracking.
+            </p>
+            <p class="bio">
+                <strong>Workflow Protocol:</strong> Incoming alerts from system monitors automatically generate tickets categorized by severity level (Critical Hardware Fault, Network Latency Spike, Service Degradation), ensuring rapid remediation cycles.
+            </p>
+            <div class="spec-box">
+                <h4>Active Queue Sample Metrics</h4>
+                <p style="color:var(--server-fg); margin:0;">
+                    • Mean Time to Resolution (MTTR): 14 Minutes<br>
+                    • Open Incidents: 0 (All systems nominal)<br>
+                    • Automated Escalation Triggers: Enabled
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
