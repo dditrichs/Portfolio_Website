@@ -12,7 +12,6 @@
             --muted: #555555;
             --accent: #b91c1c;
             --border: #111111;
-            --server-bg: #1e1e24;
             --server-fg: #d4d4d8;
         }
 
@@ -25,9 +24,26 @@
             padding: 40px 20px 80px 20px;
             display: flex;
             justify-content: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Slow, ambient background canvas */
+        #ambient-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.12; /* Very subtle so it's not distracting */
         }
 
         .wrapper {
+            position: relative;
+            z-index: 1;
             width: 100%;
             max-width: 900px;
             border: 3px solid var(--border);
@@ -280,7 +296,7 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 1001;
             padding: 20px;
         }
 
@@ -366,7 +382,6 @@
             box-shadow: 3px 3px 0px 0px var(--border);
         }
 
-        /* Cert Box Layout with Far-Right Dedicated Image Space */
         .cert-box {
             display: grid;
             grid-template-columns: 1fr auto;
@@ -487,6 +502,9 @@
     </style>
 </head>
 <body>
+
+    <!-- Ambient Floating Node Canvas Background -->
+    <canvas id="ambient-canvas"></canvas>
 
     <div class="wrapper">
         
@@ -658,9 +676,7 @@
         </footer>
     </div>
 
-    <!-- SUBPAGE MODALS (Embedded interactive instances) -->
-
-    <!-- Homelab Modal -->
+    <!-- SUBPAGE MODALS -->
     <div id="homelabModal" class="modal-overlay">
         <div class="modal-container">
             <button class="modal-close" onclick="closeModal('homelabModal')">Close [X]</button>
@@ -683,7 +699,6 @@
         </div>
     </div>
 
-    <!-- Network Modal -->
     <div id="networkModal" class="modal-overlay">
         <div class="modal-container">
             <button class="modal-close" onclick="closeModal('networkModal')">Close [X]</button>
@@ -704,7 +719,6 @@
         </div>
     </div>
 
-    <!-- Tickets Modal -->
     <div id="ticketsModal" class="modal-overlay">
         <div class="modal-container">
             <button class="modal-close" onclick="closeModal('ticketsModal')">Close [X]</button>
@@ -726,6 +740,74 @@
     </div>
 
     <script>
+        // Ambient Floating Node / Network Topology Background Animation
+        // Renders slow, smooth, subtle connecting dots that mimic a gentle node map.
+        const canvas = document.getElementById('ambient-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = Math.floor((canvas.width * canvas.height) / 18000); // density control
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.4, // Very slow, gentle drift velocity
+                vy: (Math.random() - 0.5) * 0.4,
+                radius: Math.random() * 1.5 + 1
+            });
+        }
+
+        function animateAmbient() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw connecting lines between close nodes
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 120) {
+                        ctx.strokeStyle = `rgba(185, 28, 28, ${1 - dist / 120})`; // Fades out with distance
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Move and draw nodes
+            ctx.fillStyle = '#b91c1c';
+            for (let p of particles) {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Bounce off edges smoothly
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            requestAnimationFrame(animateAmbient);
+        }
+
+        requestAnimationFrame(animateAmbient);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Modal Controls
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
         }
