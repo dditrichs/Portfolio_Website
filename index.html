@@ -68,25 +68,18 @@
             }
         }
 
-        /* Static Quick Jump Links Bar (No longer sticky) */
+        /* Static Quick Jump Links Bar - Squished on mobile to fit one line without scrolling */
         .quick-nav {
             background: var(--surface);
             border: 2px solid var(--border);
-            padding: 10px 12px;
+            padding: 6px 4px;
             margin: -12px -12px 25px -12px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
+            gap: 2px;
             z-index: 10;
             box-shadow: 0px 4px 0px 0px var(--border);
-            overflow-x: auto;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-        }
-
-        .quick-nav::-webkit-scrollbar {
-            display: none; /* Safari and Chrome */
         }
 
         @media (min-width: 768px) {
@@ -95,47 +88,69 @@
                 padding: 10px 15px;
                 justify-content: space-between;
                 flex-wrap: wrap;
-                overflow-x: visible;
-                white-space: normal;
+                gap: 8px;
             }
         }
 
         .quick-nav-title {
-            font-size: 11px;
+            font-size: 8px;
             font-weight: 900;
             text-transform: uppercase;
             background: var(--border);
             color: #ffffff;
-            padding: 4px 8px;
+            padding: 3px 4px;
             flex-shrink: 0;
+            letter-spacing: -0.5px;
+        }
+
+        @media (min-width: 768px) {
+            .quick-nav-title {
+                font-size: 11px;
+                padding: 4px 8px;
+                letter-spacing: normal;
+            }
         }
 
         .quick-nav-links {
             display: flex;
-            gap: 6px;
+            gap: 2px;
             flex-wrap: nowrap;
+            width: 100%;
+            justify-content: space-between;
         }
 
         @media (min-width: 768px) {
             .quick-nav-links {
                 flex-wrap: wrap;
                 gap: 8px;
+                width: auto;
+                justify-content: flex-start;
             }
         }
 
         .quick-link-btn {
             position: relative;
-            font-size: 10px;
+            font-size: 8px;
             font-weight: 900;
             text-transform: uppercase;
             text-decoration: none;
             color: var(--fg);
             background: var(--bg);
             border: 1px solid var(--border);
-            padding: 4px 8px;
+            padding: 3px 2px;
             box-shadow: 1px 1px 0px 0px var(--border);
-            flex-shrink: 0;
+            flex-grow: 1;
+            text-align: center;
+            white-space: nowrap;
             transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
+        }
+
+        @media (min-width: 768px) {
+            .quick-link-btn {
+                font-size: 10px;
+                padding: 4px 8px;
+                flex-grow: 0;
+            }
         }
 
         .quick-link-btn:hover {
@@ -699,9 +714,9 @@
 
     <div class="wrapper">
         
-        <!-- Static Quick Jump Links Bar -->
+        <!-- Static Quick Jump Links Bar (Squished onto one line on mobile) -->
         <nav class="quick-nav">
-            <span class="quick-nav-title">Quick Jump</span>
+            <span class="quick-nav-title">Jump</span>
             <div class="quick-nav-links">
                 <a href="#overview" class="quick-link-btn">Overview</a>
                 <a href="#tech-stack" class="quick-link-btn">Tech</a>
