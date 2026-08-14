@@ -68,26 +68,35 @@
             }
         }
 
-        /* Sticky Quick Links Bar */
+        /* Static Quick Jump Links Bar (No longer sticky) */
         .quick-nav {
-            position: sticky;
-            top: 0;
             background: var(--surface);
             border: 2px solid var(--border);
-            padding: 10px 15px;
+            padding: 10px 12px;
             margin: -12px -12px 25px -12px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             z-index: 10;
             box-shadow: 0px 4px 0px 0px var(--border);
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .quick-nav::-webkit-scrollbar {
+            display: none; /* Safari and Chrome */
         }
 
         @media (min-width: 768px) {
             .quick-nav {
                 margin: -50px -50px 35px -50px;
+                padding: 10px 15px;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                overflow-x: visible;
+                white-space: normal;
             }
         }
 
@@ -98,12 +107,20 @@
             background: var(--border);
             color: #ffffff;
             padding: 4px 8px;
+            flex-shrink: 0;
         }
 
         .quick-nav-links {
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+            gap: 6px;
+            flex-wrap: nowrap;
+        }
+
+        @media (min-width: 768px) {
+            .quick-nav-links {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
         }
 
         .quick-link-btn {
@@ -117,6 +134,7 @@
             border: 1px solid var(--border);
             padding: 4px 8px;
             box-shadow: 1px 1px 0px 0px var(--border);
+            flex-shrink: 0;
             transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
         }
 
@@ -243,7 +261,7 @@
         /* Sections */
         .section-block {
             margin-bottom: 45px;
-            scroll-margin-top: 70px;
+            scroll-margin-top: 30px;
         }
 
         h2 {
@@ -255,7 +273,8 @@
             color: #ffffff;
             padding: 6px 12px;
             margin-bottom: 20px;
-            display: inline-block;
+            display: block;
+            width: 100%;
         }
 
         .bio {
@@ -680,7 +699,7 @@
 
     <div class="wrapper">
         
-        <!-- Sticky Quick Jump Links Bar -->
+        <!-- Static Quick Jump Links Bar -->
         <nav class="quick-nav">
             <span class="quick-nav-title">Quick Jump</span>
             <div class="quick-nav-links">
