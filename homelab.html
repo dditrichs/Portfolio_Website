@@ -130,18 +130,26 @@
             margin-bottom: 8px;
             color: var(--fg);
         }
-        .img-placeholder {
-            background: #e5e5df;
-            border: 2px dashed var(--border);
-            padding: 24px;
-            text-align: center;
+        .img-container {
+            margin: 20px 0;
+            border: 2px solid var(--border);
+            box-shadow: 3px 3px 0px 0px var(--border);
+            background: var(--bg);
+        }
+        .img-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .img-caption {
             font-family: monospace;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            color: var(--muted);
-            margin: 20px 0;
-            box-shadow: 3px 3px 0px 0px var(--border);
+            background: var(--border);
+            color: #fff;
+            padding: 6px 10px;
+            text-align: center;
         }
     </style>
 </head>
@@ -171,12 +179,14 @@
                 <li><strong>Resource Isolation:</strong> Each service is isolated with strict vCPU and RAM allocations, ensuring that heavy background tasks do not destabilize core network functions.</li>
             </ul>
 
-            <div class="img-placeholder">
-                📷 [Photo Placeholder: Physical Bare-Metal Server Hardware Setup & Chassis Interior]
+            <div class="img-container">
+                <img src="assets/images/homelab1.jpg" alt="Physical Bare-Metal Server Hardware Setup & Chassis Interior">
+                <div class="img-caption">Physical Bare-Metal Server Hardware Setup & Chassis Interior</div>
             </div>
 
-            <div class="img-placeholder">
-                📷 [Stock Image Placeholder: Proxmox VE Hardware & Storage Pool Dashboard Interface]
+            <div class="img-container">
+                <img src="assets/images/homelab2.jpg" alt="Proxmox VE Hardware & Storage Pool Dashboard Interface">
+                <div class="img-caption">Proxmox VE Hardware & Storage Pool Dashboard Interface</div>
             </div>
 
             <div class="spec-box">
@@ -203,8 +213,9 @@
                 <li><strong>Reverse Proxy & Automated SSL/TLS:</strong> Integrated Nginx Proxy Manager to handle local SSL termination and route web traffic securely. Using Cloudflare DNS-01 API challenges, the system automatically provisions and renews Let's Encrypt wildcard certificates (<code>*.damonditrichs.com</code>), enabling secure internal HTTPS access without exposing raw ports to the public internet.</li>
             </ul>
 
-            <div class="img-placeholder">
-                📷 [Stock Image Placeholder: Pi-hole Query Log & Nginx Proxy Manager Dashboard]
+            <div class="img-container">
+                <img src="assets/images/homelab3.jpg" alt="Pi-hole Query Log & Nginx Proxy Manager Dashboard">
+                <div class="img-caption">Pi-hole Query Log & Nginx Proxy Manager Dashboard</div>
             </div>
 
             <h2>3. High Availability, Automation, & Media Services</h2>
@@ -214,8 +225,9 @@
                 <li><strong>Containerized Workloads:</strong> Deployed a dedicated Ubuntu Virtual Machine running an isolated Minecraft game server via Docker Compose, complete with automated restart policies and resource governance.</li>
             </ul>
 
-            <div class="img-placeholder">
-                📷 [Stock Image Placeholder: Uptime Kuma Green Status Monitors & Jellyfin Media Interface]
+            <div class="img-container">
+                <img src="assets/images/homelab4.jpg" alt="Uptime Kuma Green Status Monitors & Jellyfin Media Interface">
+                <div class="img-caption">Uptime Kuma Green Status Monitors & Jellyfin Media Interface</div>
             </div>
 
             <h2>4. Local Artificial Intelligence Integration</h2>
@@ -227,8 +239,9 @@
                 <li><strong>Performance:</strong> This enables full GPU acceleration for local large language models (such as Qwen 2.5 and DeepSeek-R1), delivering hardware-accelerated local inference, coding assistance, and text generation entirely off-cloud.</li>
             </ul>
 
-            <div class="img-placeholder">
-                📷 [Stock Image Placeholder: Open WebUI Chat Interface & Terminal GPU Usage Monitor]
+            <div class="img-container">
+                <img src="assets/images/homelab5.jpg" alt="Open WebUI Chat Interface & Terminal GPU Usage Monitor">
+                <div class="img-caption">Open WebUI Chat Interface & Terminal GPU Usage Monitor</div>
             </div>
 
             <h2>5. Engineering Challenges & Troubleshooting</h2>
