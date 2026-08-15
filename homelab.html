@@ -13,7 +13,7 @@
             --muted: #555555;
             --accent: #b91c1c;
             --border: #111111;
-            --server-fg: #d4d4d8;
+            --server-fg: #27272a;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -68,7 +68,7 @@
         }
         @media (min-width: 768px) { .quick-link-btn { font-size: 10px; } }
         .quick-link-btn:hover { background: var(--accent); color: #ffffff; }
-        .section-block { margin-bottom: 30px; }
+        .section-block { margin-bottom: 40px; }
         .project-tag {
             font-size: 11px;
             font-weight: 900;
@@ -87,21 +87,41 @@
             letter-spacing: -1px;
         }
         @media (min-width: 768px) { h1 { font-size: 34px; } }
-        .bio {
+        h2 {
+            font-size: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-top: 30px;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 6px;
+        }
+        @media (min-width: 768px) { h2 { font-size: 22px; } }
+        p {
             font-size: 14px;
             line-height: 1.7;
             font-weight: 500;
             color: var(--muted);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
-        @media (min-width: 768px) { .bio { font-size: 16px; } }
+        @media (min-width: 768px) { p { font-size: 15px; } }
+        ul {
+            margin-bottom: 14px;
+            padding-left: 20px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        @media (min-width: 768px) { ul { font-size: 15px; } }
+        li { margin-bottom: 6px; }
         .spec-box {
             background: var(--bg);
             border: 2px solid var(--border);
             padding: 16px;
-            margin-top: 25px;
+            margin: 20px 0;
             font-family: monospace;
-            font-size: 12px;
+            font-size: 13px;
             box-shadow: 3px 3px 0px 0px var(--border);
         }
         .spec-box h4 {
@@ -109,6 +129,19 @@
             text-transform: uppercase;
             margin-bottom: 8px;
             color: var(--fg);
+        }
+        .img-placeholder {
+            background: #e5e5df;
+            border: 2px dashed var(--border);
+            padding: 24px;
+            text-align: center;
+            font-family: monospace;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin: 20px 0;
+            box-shadow: 3px 3px 0px 0px var(--border);
         }
     </style>
 </head>
@@ -121,23 +154,98 @@
 
         <div class="section-block">
             <div class="project-tag">Infrastructure Log</div>
-            <h1>Proxmox VE Homelab Architecture</h1>
-            <p class="bio">
-                This environment is managed on a bare-metal hypervisor host utilizing dedicated storage pools and discrete containerized contexts to isolate services cleanly.
+            <h1>Building My Proxmox Homelab: An In-Progress Systems Administration & Infrastructure Project</h1>
+            <p>
+                When I set out to build my own homelab, my goal was to move beyond textbook theory and design a production-grade, self-hosted infrastructure from scratch. This environment serves as my ongoing hands-on engineering sandbox for systems administration, virtualization, enterprise networking, and security automation.
             </p>
-            <p class="bio">
-                <strong>Storage Mapping Strategy:</strong> The root file system and fast-access databases operate on a local-lvm partition mapped to the high-speed internal SSD, while sequential storage buckets (media libraries, long-term backups, metrics logs) utilize a dedicated 4TB hard drive mount point.
+            <p>
+                Rather than a static setup, this project is actively evolving as I deploy, scale, and troubleshoot complex service stacks on physical hardware I control.
             </p>
+
+            <h2>1. Hypervisor Architecture & Storage Tiering</h2>
+            <p>
+                At the core of the infrastructure is a dedicated physical bare-metal host running Proxmox Virtual Environment (VE). To optimize resource utilization and isolation, I architected a hybrid deployment model utilizing both lightweight Linux Containers (LXCs) and full Virtual Machines (VMs).
+            </p>
+            <ul>
+                <li><strong>Storage Performance & Tiering:</strong> To prevent I/O bottlenecks, I separated system runtimes from bulk storage. Operating systems, application databases, and metadata reside on high-speed solid-state storage (<code>local-lvm</code>). Meanwhile, bulk media assets are isolated on a high-capacity drive array mapped directly into containers via Proxmox bind mounts.</li>
+                <li><strong>Resource Isolation:</strong> Each service is isolated with strict vCPU and RAM allocations, ensuring that heavy background tasks do not destabilize core network functions.</li>
+            </ul>
+
+            <div class="img-placeholder">
+                📷 [Photo Placeholder: Physical Bare-Metal Server Hardware Setup & Chassis Interior]
+            </div>
+
+            <div class="img-placeholder">
+                📷 [Stock Image Placeholder: Proxmox VE Hardware & Storage Pool Dashboard Interface]
+            </div>
+
             <div class="spec-box">
                 <h4>Active Node Topology Layout</h4>
-                <p style="color:var(--server-fg); margin:0;">
-                    [Node: Proxmox Host] <br>
-                    ├── LXC 100: Pi-hole + Unbound DNSSEC Resolver<br>
-                    ├── LXC 101: Uptime Kuma Network Monitoring<br>
-                    ├── LXC 102: Jellyfin Media Streaming Engine<br>
-                    └── Ubuntu VM 103: Docker Engine (Minecraft & Auxiliary Compose stacks)
+                <p style="color:var(--server-fg); font-weight:700; margin:0;">
+                    [Node: Proxmox Host (10.0.0.147)]<br>
+                    ├── LXC 100: Pi-hole (10.0.0.100) + Unbound DNSSEC Resolver (127.0.0.1:5335)<br>
+                    ├── LXC 101: Uptime Kuma Network Monitoring (10.0.0.101:3001)<br>
+                    ├── LXC 102: Jellyfin Media Streaming Engine (10.0.0.102:8096)<br>
+                    ├── VM 103: Ubuntu Docker Engine - Minecraft Server (10.0.0.103:25565)<br>
+                    ├── LXC 104: Open WebUI & Ollama AI Engine (10.0.0.104:3000)<br>
+                    ├── Docker: Vaultwarden Password Manager (10.0.0.105:8080)<br>
+                    └── Host/Docker: Nginx Proxy Manager (10.0.0.106:81)
                 </p>
             </div>
+
+            <h2>2. Core Network Services & Zero-Trust Access</h2>
+            <p>
+                A reliable infrastructure requires robust local DNS management and secure edge routing.
+            </p>
+            <ul>
+                <li><strong>Network-Wide Ad & Threat Filtering:</strong> Deployed Pi-hole v6 as a centralized DNS sinkhole to mitigate malicious domains and network-wide telemetry.</li>
+                <li><strong>Recursive DNS & DNSSEC Validation:</strong> Layered Unbound behind Pi-hole to operate as a local, validating recursive DNS resolver. By bypassing public upstream providers, queries resolve directly and securely against root servers with DNSSEC enforcement.</li>
+                <li><strong>Reverse Proxy & Automated SSL/TLS:</strong> Integrated Nginx Proxy Manager to handle local SSL termination and route web traffic securely. Using Cloudflare DNS-01 API challenges, the system automatically provisions and renews Let's Encrypt wildcard certificates (<code>*.damonditrichs.com</code>), enabling secure internal HTTPS access without exposing raw ports to the public internet.</li>
+            </ul>
+
+            <div class="img-placeholder">
+                📷 [Stock Image Placeholder: Pi-hole Query Log & Nginx Proxy Manager Dashboard]
+            </div>
+
+            <h2>3. High Availability, Automation, & Media Services</h2>
+            <ul>
+                <li><strong>Infrastructure Monitoring:</strong> Configured Uptime Kuma to continuously monitor the health, liveness, and DNS resolution paths of all internal services, providing automated alerts for state changes.</li>
+                <li><strong>Media Streaming Pipeline:</strong> Deployed a Jellyfin media server tied directly to the ZFS storage pool, managing media indexing and local streaming across household clients.</li>
+                <li><strong>Containerized Workloads:</strong> Deployed a dedicated Ubuntu Virtual Machine running an isolated Minecraft game server via Docker Compose, complete with automated restart policies and resource governance.</li>
+            </ul>
+
+            <div class="img-placeholder">
+                📷 [Stock Image Placeholder: Uptime Kuma Green Status Monitors & Jellyfin Media Interface]
+            </div>
+
+            <h2>4. Local Artificial Intelligence Integration</h2>
+            <p>
+                To explore modern machine learning workflows, I provisioned an LXC container running a self-hosted AI stack via Ollama and Open WebUI.
+            </p>
+            <ul>
+                <li><strong>Hardware Passthrough:</strong> Passed an NVIDIA GeForce GTX 1650 SUPER directly through the Proxmox hypervisor into the container using device nodes and cgroup permissions.</li>
+                <li><strong>Performance:</strong> This enables full GPU acceleration for local large language models (such as Qwen 2.5 and DeepSeek-R1), delivering hardware-accelerated local inference, coding assistance, and text generation entirely off-cloud.</li>
+            </ul>
+
+            <div class="img-placeholder">
+                📷 [Stock Image Placeholder: Open WebUI Chat Interface & Terminal GPU Usage Monitor]
+            </div>
+
+            <h2>5. Engineering Challenges & Troubleshooting</h2>
+            <p>
+                Building and scaling a homelab naturally involves overcoming technical roadblocks. Here are a few key engineering challenges I've navigated:
+            </p>
+            <ul>
+                <li><strong>Split-DNS and SSL Routing:</strong> Balancing local network resolution with external wildcard certificates required configuring Pi-hole custom DNS entries so that internal clients resolve domain names locally to their respective container IPs while still trusting the Nginx Proxy Manager SSL handshake.</li>
+                <li><strong>GPU Passthrough Permissions:</strong> Getting the local AI container to recognize the NVIDIA GPU required careful configuration of LXC device mapping (<code>/dev/nvidia*</code>), cgroup2 device allow rules, and manual bind-mounting of runtime hooks to ensure the container had direct hardware access without compromising host stability.</li>
+                <li><strong>Storage Bind-Mount Permissions:</strong> When attaching the bulk storage pool to the Jellyfin container, managing user and group UID/GID mappings between the Proxmox host and the unprivileged container ensured the service could read and write media files securely without permission drift.</li>
+            </ul>
+
+            <h2>6. Current Focus & Roadmap</h2>
+            <ul>
+                <li><strong>Professional Alignment:</strong> Using this environment to anchor my practical knowledge while actively studying for advanced IT and networking certifications.</li>
+                <li><strong>Infrastructure Expansion:</strong> Continuously hardening security boundaries, optimizing automated backup strategies, and expanding containerized monitoring workflows.</li>
+            </ul>
         </div>
     </div>
 </body>
