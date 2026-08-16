@@ -142,8 +142,14 @@
             box-shadow: 3px 3px 0px 0px var(--border);
             background: var(--bg);
             position: relative;
-            cursor: pointer;
             width: 100%;
+            cursor: default;
+        }
+        /* Enable cursor pointer and click expansion on computer (min-width: 768px) only */
+        @media (min-width: 768px) {
+            .img-container {
+                cursor: pointer;
+            }
         }
         .img-container img {
             width: 100%;
@@ -164,18 +170,18 @@
             align-items: center;
         }
         
-        /* By default, show "Click to Expand" on mobile */
+        /* By default, hide "Click to Expand" on mobile */
         .expand-hint {
+            display: none;
             font-size: 9px;
             background: var(--accent);
             padding: 2px 6px;
             text-transform: uppercase;
-            display: inline-block;
         }
-        /* Hide "Click to Expand" on desktop (min-width: 768px) */
+        /* Show "Click to Expand" on desktop (min-width: 768px) only */
         @media (min-width: 768px) {
             .expand-hint {
-                display: none;
+                display: inline-block;
             }
         }
 
@@ -272,7 +278,6 @@
 
             <div class="gallery">
                 <div>
-                    <!-- Enabled for both mobile and desktop -->
                     <div class="img-container" onclick="openLightbox('assets/images/ticketlab1.png', 'Help Desk Workspace & Queue Initialization')">
                         <img src="assets/images/ticketlab1.png" alt="Help Desk Workspace & Queue Initialization">
                         <div class="img-caption">
@@ -338,6 +343,9 @@
 
     <script>
         function openLightbox(imgSrc, captionText) {
+            // Only allow lightbox to open on desktop screens (min-width: 768px)
+            if (window.innerWidth < 768) return;
+
             const modal = document.getElementById('lightbox-modal');
             const modalImg = document.getElementById('lightbox-img');
             const modalCaption = document.getElementById('lightbox-caption');
