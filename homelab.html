@@ -167,7 +167,6 @@
             width: 100%;
             cursor: default;
         }
-        /* Enable cursor pointer on computer (min-width: 768px) only */
         @media (min-width: 768px) {
             .img-container {
                 cursor: pointer;
@@ -192,7 +191,6 @@
             align-items: center;
         }
         
-        /* By default, hide "Click to Expand" on mobile */
         .expand-hint {
             display: none;
             font-size: 9px;
@@ -200,14 +198,12 @@
             padding: 2px 6px;
             text-transform: uppercase;
         }
-        /* Show "Click to Expand" on desktop (min-width: 768px) only */
         @media (min-width: 768px) {
             .expand-hint {
                 display: inline-block;
             }
         }
 
-        /* Lightbox modal overlay */
         #lightbox-modal {
             display: none;
             position: fixed;
@@ -358,6 +354,16 @@
                     <span class="expand-hint">Click to Expand</span>
                 </div>
             </div>
+
+            <h2>4. Security Automation & Next Steps</h2>
+            <p>
+                As this homelab continues to expand, my next roadmap items focus heavily on strengthening identity management and hardening perimeter defense:
+            </p>
+            <ul>
+                <li><strong>Centralized Credential Management:</strong> Deployed Vaultwarden in an isolated container to ensure encrypted, self-hosted password management and secure notes across all personal and operational devices.</li>
+                <li><strong>AI Integration & Local LLMs:</strong> Integrated Open WebUI backed by Ollama inside an LXC container to experiment with local, air-gapped AI assistance and automation workflows without leaking telemetry outward.</li>
+                <li><strong>Network Segmentation & VLANs:</strong> Transitioning from a flat network layout to segmented VLANs to isolate guest traffic, IoT devices, and core infrastructure management interfaces.</li>
+            </ul>
         </div>
     </div>
 
@@ -372,7 +378,6 @@
 
     <script>
         function openLightbox(imgSrc, captionText) {
-            // Only allow lightbox to open on desktop screens (min-width: 768px)
             if (window.innerWidth < 768) return;
 
             const modal = document.getElementById('lightbox-modal');
