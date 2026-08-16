@@ -177,7 +177,7 @@
         }
         @media (min-width: 768px) { .item-desc { font-size: 15px; } }
 
-        /* Lightbox modal overlay */
+        /* Lightbox modal overlay - hidden by default on all devices */
         #lightbox-modal {
             display: none;
             position: fixed;
@@ -192,9 +192,13 @@
             padding: 10px;
             overflow-y: auto;
         }
-        #lightbox-modal.active {
-            display: flex;
+        /* Only display the lightbox on screens wider than 768px (computers) */
+        @media (min-width: 768px) {
+            #lightbox-modal.active {
+                display: flex;
+            }
         }
+
         .lightbox-content {
             position: relative;
             width: 100%;
@@ -261,11 +265,12 @@
 
             <div class="gallery">
                 <div>
-                    <div class="img-container" onclick="openLightbox('assets/images/ticketlab1.png', 'Help Desk Workspace & Queue Initialization')">
+                    <!-- The 'onclick' event for the lightbox is now active only on screens > 768px -->
+                    <div class="img-container" onclick="if (window.innerWidth > 768) openLightbox('assets/images/ticketlab1.png', 'Help Desk Workspace & Queue Initialization')">
                         <img src="assets/images/ticketlab1.png" alt="Help Desk Workspace & Queue Initialization">
                         <div class="img-caption">
                             <span>Help Desk Workspace & Queue Initialization</span>
-                            <span class="expand-hint">Click to Expand</span>
+                            <span class="expand-hint">Click to Expand (Desktop Only)</span>
                         </div>
                     </div>
                     <p class="item-desc">
@@ -274,11 +279,11 @@
                 </div>
 
                 <div>
-                    <div class="img-container" onclick="openLightbox('assets/images/ticketlab2.png', 'Hardware Incident Ticket Submission')">
+                    <div class="img-container" onclick="if (window.innerWidth > 768) openLightbox('assets/images/ticketlab2.png', 'Hardware Incident Ticket Submission')">
                         <img src="assets/images/ticketlab2.png" alt="Hardware Incident Ticket Submission">
                         <div class="img-caption">
                             <span>Hardware Incident Ticket Submission</span>
-                            <span class="expand-hint">Click to Expand</span>
+                            <span class="expand-hint">Click to Expand (Desktop Only)</span>
                         </div>
                     </div>
                     <p class="item-desc">
@@ -287,11 +292,11 @@
                 </div>
 
                 <div>
-                    <div class="img-container" onclick="openLightbox('assets/images/ticketlab3.png', 'Incident Response & Resolution Documentation')">
+                    <div class="img-container" onclick="if (window.innerWidth > 768) openLightbox('assets/images/ticketlab3.png', 'Incident Response & Resolution Documentation')">
                         <img src="assets/images/ticketlab3.png" alt="Incident Response & Resolution Documentation">
                         <div class="img-caption">
                             <span>Incident Response & Resolution Documentation</span>
-                            <span class="expand-hint">Click to Expand</span>
+                            <span class="expand-hint">Click to Expand (Desktop Only)</span>
                         </div>
                     </div>
                     <p class="item-desc">
@@ -300,11 +305,11 @@
                 </div>
 
                 <div>
-                    <div class="img-container" onclick="openLightbox('assets/images/ticketlab4.png', 'Cross-Departmental Escalation & Privileged Access')">
+                    <div class="img-container" onclick="if (window.innerWidth > 768) openLightbox('assets/images/ticketlab4.png', 'Cross-Departmental Escalation & Privileged Access')">
                         <img src="assets/images/ticketlab4.png" alt="Cross-Departmental Escalation & Privileged Access">
                         <div class="img-caption">
                             <span>Cross-Departmental Escalation & Privileged Access</span>
-                            <span class="expand-hint">Click to Expand</span>
+                            <span class="expand-hint">Click to Expand (Desktop Only)</span>
                         </div>
                     </div>
                     <p class="item-desc">
@@ -326,6 +331,8 @@
 
     <script>
         function openLightbox(imgSrc, captionText) {
+            // Safety check for mobile just in case
+            if (window.innerWidth <= 768) return;
             const modal = document.getElementById('lightbox-modal');
             const modalImg = document.getElementById('lightbox-img');
             const modalCaption = document.getElementById('lightbox-caption');
