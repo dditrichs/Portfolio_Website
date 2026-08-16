@@ -14,6 +14,11 @@
             --border: #111111;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: var(--bg);
             color: var(--fg);
@@ -22,9 +27,26 @@
             display: flex;
             justify-content: center;
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
         @media (min-width: 768px) { body { padding: 40px 20px 160px 20px; } }
+
+        /* Ambient background canvas */
+        #ambient-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.12;
+        }
+
         .wrapper {
+            position: relative;
+            z-index: 1;
             width: 100%;
             max-width: 900px;
             border: 3px solid var(--border);
@@ -42,6 +64,7 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: 0px 4px 0px 0px var(--border);
+            z-index: 10;
         }
         @media (min-width: 768px) { .quick-nav { margin: -50px -50px 35px -50px; padding: 10px 15px; } }
         .quick-nav-title {
@@ -63,9 +86,15 @@
             border: 1px solid var(--border);
             padding: 4px 8px;
             box-shadow: 1px 1px 0px 0px var(--border);
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
         }
         @media (min-width: 768px) { .quick-link-btn { font-size: 10px; } }
-        .quick-link-btn:hover { background: var(--accent); color: #ffffff; }
+        .quick-link-btn:hover { 
+            background: var(--accent); 
+            color: #ffffff; 
+            transform: translate(-1px, -1px);
+            box-shadow: 2px 2px 0px 0px var(--border);
+        }
         .section-block { margin-bottom: 35px; }
         .project-tag {
             font-size: 11px;
@@ -107,18 +136,32 @@
             gap: 25px;
             margin-top: 20px;
         }
+        .img-container {
+            border: 2px solid var(--border);
+            background: var(--bg);
+            box-shadow: 4px 4px 0px 0px var(--border);
+            margin-bottom: 12px;
+        }
+        .img-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .img-caption {
+            font-family: monospace;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: var(--border);
+            color: #fff;
+            padding: 6px 10px;
+            text-align: center;
+        }
         .screenshot-card {
             border: 2px solid var(--border);
             background: var(--bg);
             padding: 16px;
             box-shadow: 4px 4px 0px 0px var(--border);
-        }
-        .screenshot-card img {
-            width: 100%;
-            height: auto;
-            border: 1px solid var(--border);
-            display: block;
-            margin-bottom: 12px;
         }
         .screenshot-card h4 {
             font-size: 13px;
@@ -136,6 +179,9 @@
     </style>
 </head>
 <body>
+
+    <canvas id="ambient-canvas"></canvas>
+
     <div class="wrapper">
         <nav class="quick-nav">
             <span class="quick-nav-title">Project Subpage</span>
@@ -156,7 +202,10 @@
 
             <div class="gallery">
                 <div class="screenshot-card">
-                    <img src="ticket1.png" alt="Baseline Help Desk Queue">
+                    <div class="img-container">
+                        <img src="assets/images/ticket1.png" alt="Baseline Help Desk Queue">
+                        <div class="img-caption">ticket1: Help Desk Workspace & Queue Initialization</div>
+                    </div>
                     <h4>ticket1: Help Desk Workspace & Queue Initialization</h4>
                     <p>
                         Initial configuration of the Spiceworks Cloud Help Desk environment for the corporate organization <strong>ddserver</strong>. This workspace serves as the centralized command center for tracking incoming support volume, sorting active queues by priority and category, and managing agent workflows.
@@ -164,7 +213,10 @@
                 </div>
 
                 <div class="screenshot-card">
-                    <img src="ticket2.png" alt="Hardware Ticket Creation">
+                    <div class="img-container">
+                        <img src="assets/images/ticket2.png" alt="Hardware Ticket Creation">
+                        <div class="img-caption">ticket2: Hardware Incident Ticket Submission</div>
+                    </div>
                     <h4>ticket2: Hardware Incident Ticket Submission</h4>
                     <p>
                         Creation of Ticket #3 detailing a critical hardware failure where a user's workstation monitor failed to display video signals. The intake parameters capture key diagnostic metrics: high priority status, hardware classification, pre-tested cabling states, user availability, and explicit contact preferences for efficient on-site response.
@@ -172,7 +224,10 @@
                 </div>
 
                 <div class="screenshot-card">
-                    <img src="ticket3.png" alt="Ticket Resolution Notes">
+                    <div class="img-container">
+                        <img src="assets/images/ticket3.png" alt="Ticket Resolution Notes">
+                        <div class="img-caption">ticket3: Incident Response & Resolution Documentation</div>
+                    </div>
                     <h4>ticket3: Incident Response & Resolution Documentation</h4>
                     <p>
                         Demonstrates full ticket lifecycle management. After accepting the incident and performing on-site troubleshooting—confirming secure physical connections, functional spare cables, and isolating a faulty internal video port via a known-good test display—the issue was remediated by swapping the monitor. A detailed internal resolution note was logged for future team reference prior to closing.
@@ -180,7 +235,10 @@
                 </div>
 
                 <div class="screenshot-card">
-                    <img src="ticket4.png" alt="Privileged Access Escalation">
+                    <div class="img-container">
+                        <img src="assets/images/ticket4.png" alt="Privileged Access Escalation">
+                        <div class="img-caption">ticket4: Cross-Departmental Escalation & Privileged Access</div>
+                    </div>
                     <h4>ticket4: Cross-Departmental Escalation & Privileged Access</h4>
                     <p>
                         Illustrates escalation handling for requests exceeding Tier-1 permissions (Ticket #5: Database access modification and custom schema deployment). Adhering to the principle of least privilege, a dedicated staff account was configured for the <strong>Database Admin Team</strong>, and the ticket was reassigned alongside a professional public handoff note outlining the scope of required privileges.
@@ -189,5 +247,69 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const canvas = document.getElementById('ambient-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = Math.floor((canvas.width * canvas.height) / 18000);
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                radius: Math.random() * 1.5 + 1
+            });
+        }
+
+        function animateAmbient() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 120) {
+                        ctx.strokeStyle = `rgba(185, 28, 28, ${1 - dist / 120})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            ctx.fillStyle = '#b91c1c';
+            for (let p of particles) {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            requestAnimationFrame(animateAmbient);
+        }
+
+        requestAnimationFrame(animateAmbient);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
 </html>
