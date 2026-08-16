@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +12,6 @@
             --muted: #555555;
             --accent: #b91c1c;
             --border: #111111;
-            --server-fg: #d4d4d8;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -68,7 +66,7 @@
         }
         @media (min-width: 768px) { .quick-link-btn { font-size: 10px; } }
         .quick-link-btn:hover { background: var(--accent); color: #ffffff; }
-        .section-block { margin-bottom: 30px; }
+        .section-block { margin-bottom: 35px; }
         .project-tag {
             font-size: 11px;
             font-weight: 900;
@@ -87,6 +85,14 @@
             letter-spacing: -1px;
         }
         @media (min-width: 768px) { h1 { font-size: 34px; } }
+        h3 {
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 28px 0 12px 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 6px;
+        }
         .bio {
             font-size: 14px;
             line-height: 1.7;
@@ -95,20 +101,37 @@
             margin-bottom: 16px;
         }
         @media (min-width: 768px) { .bio { font-size: 16px; } }
-        .spec-box {
-            background: var(--bg);
-            border: 2px solid var(--border);
-            padding: 16px;
-            margin-top: 25px;
-            font-family: monospace;
-            font-size: 12px;
-            box-shadow: 3px 3px 0px 0px var(--border);
+        .gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-top: 20px;
         }
-        .spec-box h4 {
+        .screenshot-card {
+            border: 2px solid var(--border);
+            background: var(--bg);
+            padding: 16px;
+            box-shadow: 4px 4px 0px 0px var(--border);
+        }
+        .screenshot-card img {
+            width: 100%;
+            height: auto;
+            border: 1px solid var(--border);
+            display: block;
+            margin-bottom: 12px;
+        }
+        .screenshot-card h4 {
+            font-size: 13px;
             font-weight: 900;
             text-transform: uppercase;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: var(--fg);
+        }
+        .screenshot-card p {
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--muted);
+            font-weight: 500;
         }
     </style>
 </head>
@@ -120,21 +143,49 @@
         </nav>
 
         <div class="section-block">
-            <div class="project-tag">Support Environment</div>
+            <div class="project-tag">Support Environment &bull; IT Portfolio</div>
             <h1>IT Support & Ticketing System</h1>
             <p class="bio">
-                Demonstration helpdesk instance modeled after corporate incident management structures, intended to test triage automation, priority queuing, and user asset tracking.
+                This project demonstrates the deployment and operational management of a corporate IT service desk using Spiceworks Cloud Help Desk. Built to model real-world infrastructure workflows under the organization name <strong>ddserver</strong>, the environment highlights structured incident triage, hardware troubleshooting methodologies, internal documentation standards, and inter-departmental escalation routing.
             </p>
+
+            <h3>Help Desk Architecture & Workflow Implementation</h3>
             <p class="bio">
-                <strong>Workflow Protocol:</strong> Incoming alerts from system monitors automatically generate tickets categorized by severity level (Critical Hardware Fault, Network Latency Spike, Service Degradation), ensuring rapid remediation cycles.
+                To showcase professional-grade IT support capabilities, the ticketing environment was partitioned to handle varying tiers of technical complexity—ranging from frontline physical hardware diagnostics to administrative software access requests requiring cross-departmental coordination.
             </p>
-            <div class="spec-box">
-                <h4>Active Queue Sample Metrics</h4>
-                <p style="color:var(--server-fg); margin:0;">
-                    • Mean Time to Resolution (MTTR): 14 Minutes<br>
-                    • Open Incidents: 0 (All systems nominal)<br>
-                    • Automated Escalation Triggers: Enabled
-                </p>
+
+            <div class="gallery">
+                <div class="screenshot-card">
+                    <img src="ticket1.png" alt="Baseline Help Desk Queue">
+                    <h4>ticket1: Help Desk Workspace & Queue Initialization</h4>
+                    <p>
+                        Initial configuration of the Spiceworks Cloud Help Desk environment for the corporate organization <strong>ddserver</strong>. This workspace serves as the centralized command center for tracking incoming support volume, sorting active queues by priority and category, and managing agent workflows.
+                    </p>
+                </div>
+
+                <div class="screenshot-card">
+                    <img src="ticket2.png" alt="Hardware Ticket Creation">
+                    <h4>ticket2: Hardware Incident Ticket Submission</h4>
+                    <p>
+                        Creation of Ticket #3 detailing a critical hardware failure where a user's workstation monitor failed to display video signals. The intake parameters capture key diagnostic metrics: high priority status, hardware classification, pre-tested cabling states, user availability, and explicit contact preferences for efficient on-site response.
+                    </p>
+                </div>
+
+                <div class="screenshot-card">
+                    <img src="ticket3.png" alt="Ticket Resolution Notes">
+                    <h4>ticket3: Incident Response & Resolution Documentation</h4>
+                    <p>
+                        Demonstrates full ticket lifecycle management. After accepting the incident and performing on-site troubleshooting—confirming secure physical connections, functional spare cables, and isolating a faulty internal video port via a known-good test display—the issue was remediated by swapping the monitor. A detailed internal resolution note was logged for future team reference prior to closing.
+                    </p>
+                </div>
+
+                <div class="screenshot-card">
+                    <img src="ticket4.png" alt="Privileged Access Escalation">
+                    <h4>ticket4: Cross-Departmental Escalation & Privileged Access</h4>
+                    <p>
+                        Illustrates escalation handling for requests exceeding Tier-1 permissions (Ticket #5: Database access modification and custom schema deployment). Adhering to the principle of least privilege, a dedicated staff account was configured for the <strong>Database Admin Team</strong>, and the ticket was reassigned alongside a professional public handoff note outlining the scope of required privileges.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
