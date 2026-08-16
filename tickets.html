@@ -133,11 +133,11 @@
         .gallery {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 25px;
+            gap: 35px;
             margin-top: 20px;
         }
         .img-container {
-            margin: 20px 0;
+            margin: 0 0 14px 0;
             border: 2px solid var(--border);
             box-shadow: 3px 3px 0px 0px var(--border);
             background: var(--bg);
@@ -157,25 +157,13 @@
             padding: 6px 10px;
             text-align: center;
         }
-        .screenshot-card {
-            border: 2px solid var(--border);
-            background: var(--bg);
-            padding: 16px;
-            box-shadow: 4px 4px 0px 0px var(--border);
-        }
-        .screenshot-card h4 {
-            font-size: 13px;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-            color: var(--fg);
-        }
-        .screenshot-card p {
-            font-size: 13px;
-            line-height: 1.5;
-            color: var(--muted);
+        .item-desc {
+            font-size: 14px;
+            line-height: 1.7;
             font-weight: 500;
+            color: var(--muted);
         }
+        @media (min-width: 768px) { .item-desc { font-size: 15px; } }
     </style>
 </head>
 <body>
@@ -201,46 +189,42 @@
             </p>
 
             <div class="gallery">
-                <div class="screenshot-card">
+                <div>
                     <div class="img-container">
                         <img src="assets/images/ticket1.png" alt="Help Desk Workspace & Queue Initialization">
                         <div class="img-caption">Help Desk Workspace & Queue Initialization</div>
                     </div>
-                    <h4>Help Desk Workspace & Queue Initialization</h4>
-                    <p>
+                    <p class="item-desc">
                         Initial configuration of the Spiceworks Cloud Help Desk environment for the corporate organization <strong>ddserver</strong>. This workspace serves as the centralized command center for tracking incoming support volume, sorting active queues by priority and category, and managing agent workflows.
                     </p>
                 </div>
 
-                <div class="screenshot-card">
+                <div>
                     <div class="img-container">
                         <img src="assets/images/ticket2.png" alt="Hardware Incident Ticket Submission">
                         <div class="img-caption">Hardware Incident Ticket Submission</div>
                     </div>
-                    <h4>Hardware Incident Ticket Submission</h4>
-                    <p>
+                    <p class="item-desc">
                         Creation of Ticket #3 detailing a critical hardware failure where a user's workstation monitor failed to display video signals. The intake parameters capture key diagnostic metrics: high priority status, hardware classification, pre-tested cabling states, user availability, and explicit contact preferences for efficient on-site response.
                     </p>
                 </div>
 
-                <div class="screenshot-card">
+                <div>
                     <div class="img-container">
                         <img src="assets/images/ticket3.png" alt="Incident Response & Resolution Documentation">
                         <div class="img-caption">Incident Response & Resolution Documentation</div>
                     </div>
-                    <h4>Incident Response & Resolution Documentation</h4>
-                    <p>
+                    <p class="item-desc">
                         Demonstrates full ticket lifecycle management. After accepting the incident and performing on-site troubleshooting—confirming secure physical connections, functional spare cables, and isolating a faulty internal video port via a known-good test display—the issue was remediated by swapping the monitor. A detailed internal resolution note was logged for future team reference prior to closing.
                     </p>
                 </div>
 
-                <div class="screenshot-card">
+                <div>
                     <div class="img-container">
                         <img src="assets/images/ticket4.png" alt="Cross-Departmental Escalation & Privileged Access">
                         <div class="img-caption">Cross-Departmental Escalation & Privileged Access</div>
                     </div>
-                    <h4>Cross-Departmental Escalation & Privileged Access</h4>
-                    <p>
+                    <p class="item-desc">
                         Illustrates escalation handling for requests exceeding Tier-1 permissions (Ticket #5: Database access modification and custom schema deployment). Adhering to the principle of least privilege, a dedicated staff account was configured for the <strong>Database Admin Team</strong>, and the ticket was reassigned alongside a professional public handoff note outlining the scope of required privileges.
                     </p>
                 </div>
