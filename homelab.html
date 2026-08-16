@@ -355,14 +355,37 @@
                 </div>
             </div>
 
-            <h2>4. Security Automation & Next Steps</h2>
+            <h2>4. Local Artificial Intelligence Integration</h2>
             <p>
-                As this homelab continues to expand, my next roadmap items focus heavily on strengthening identity management and hardening perimeter defense:
+                To explore modern machine learning workflows, I provisioned an LXC container running a self-hosted AI stack via Ollama and Open WebUI.
             </p>
             <ul>
-                <li><strong>Centralized Credential Management:</strong> Deployed Vaultwarden in an isolated container to ensure encrypted, self-hosted password management and secure notes across all personal and operational devices.</li>
-                <li><strong>AI Integration & Local LLMs:</strong> Integrated Open WebUI backed by Ollama inside an LXC container to experiment with local, air-gapped AI assistance and automation workflows without leaking telemetry outward.</li>
-                <li><strong>Network Segmentation & VLANs:</strong> Transitioning from a flat network layout to segmented VLANs to isolate guest traffic, IoT devices, and core infrastructure management interfaces.</li>
+                <li><strong>Hardware Passthrough:</strong> Passed an NVIDIA GeForce GTX 1650 SUPER directly through the Proxmox hypervisor into the container using device nodes and cgroup permissions.</li>
+                <li><strong>Performance:</strong> This enables full GPU acceleration for local large language models (such as Qwen 2.5 and DeepSeek-R1), delivering hardware-accelerated local inference, coding assistance, and text generation entirely off-cloud.</li>
+            </ul>
+
+            <div class="img-container" onclick="openLightbox('assets/images/homelab5new.png', 'Open WebUI Chat Interface & Terminal GPU Usage Monitor')">
+                <img src="assets/images/homelab5new.png" alt="Open WebUI Chat Interface & Terminal GPU Usage Monitor">
+                <div class="img-caption">
+                    <span>Open WebUI Chat Interface & Terminal GPU Usage Monitor</span>
+                    <span class="expand-hint">Click to Expand</span>
+                </div>
+            </div>
+
+            <h2>5. Engineering Challenges & Troubleshooting</h2>
+            <p>
+                Building and scaling a homelab naturally involves overcoming technical roadblocks. Here are a few key engineering challenges I've navigated:
+            </p>
+            <ul>
+                <li><strong>Split-DNS and SSL Routing:</strong> Balancing local network resolution with external wildcard certificates required configuring Pi-hole custom DNS entries so that internal clients resolve domain names locally to their respective container IPs while still trusting the Nginx Proxy Manager SSL handshake.</li>
+                <li><strong>GPU Passthrough Permissions:</strong> Getting the local AI container to recognize the NVIDIA GPU required careful configuration of LXC device mapping (<code>/dev/nvidia*</code>), cgroup2 device allow rules, and manual bind-mounting of runtime hooks to ensure the container had direct hardware access without compromising host stability.</li>
+                <li><strong>Storage Bind-Mount Permissions:</strong> When attaching the bulk storage pool to the Jellyfin container, managing user and group UID/GID mappings between the Proxmox host and the unprivileged container ensured the service could read and write media files securely without permission drift.</li>
+            </ul>
+
+            <h2>6. Current Focus & Roadmap</h2>
+            <ul>
+                <li><strong>Professional Alignment:</strong> Using this environment to anchor my practical knowledge while actively studying for advanced IT and networking certifications.</li>
+                <li><strong>Infrastructure Expansion:</strong> Continuously hardening security boundaries, optimizing automated backup strategies, and expanding containerized monitoring workflows.</li>
             </ul>
         </div>
     </div>
