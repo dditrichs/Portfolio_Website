@@ -191,7 +191,7 @@
             text-transform: uppercase;
         }
 
-        /* Lightbox modal overlay */
+        /* Lightbox modal overlay - hidden by default on all devices */
         #lightbox-modal {
             display: none;
             position: fixed;
@@ -206,9 +206,13 @@
             padding: 10px;
             overflow-y: auto;
         }
-        #lightbox-modal.active {
-            display: flex;
+        /* Only display the lightbox on screens wider than 768px (computers) */
+        @media (min-width: 768px) {
+            #lightbox-modal.active {
+                display: flex;
+            }
         }
+        
         .lightbox-content {
             position: relative;
             width: 100%;
@@ -279,19 +283,20 @@
                 <li><strong>Resource Isolation:</strong> Each service is isolated with strict vCPU and RAM allocations, ensuring that heavy background tasks do not destabilize core network functions.</li>
             </ul>
 
-            <div class="img-container" onclick="openLightbox('assets/images/homelab1.jpg', 'Physical Bare-Metal Server Hardware Setup & Chassis Interior')">
+            <!-- The 'onclick' event for the lightbox is now active only on screens > 768px -->
+            <div class="img-container" onclick="if (window.innerWidth > 768) openLightbox('assets/images/homelab1.jpg', 'Physical Bare-Metal Server Hardware Setup & Chassis Interior')">
                 <img src="assets/images/homelab1.jpg" alt="Physical Bare-Metal Server Hardware Setup & Chassis Interior">
                 <div class="img-caption">
                     <span>Physical Bare-Metal Server Hardware Setup & Chassis Interior</span>
-                    <span class="expand-hint">Click to Expand</span>
+                    <span class="expand-hint">Click to Expand (Desktop Only)</span>
                 </div>
             </div>
 
-            <div class="img-container" onclick="openLightbox('assets/images/homelab2.png', 'Proxmox VE Hardware & Storage Pool Dashboard Interface')">
+            <div class="img-container" onclick="if (window.innerWidth > 768) openLightbox('assets/images/homelab2.png', 'Proxmox VE Hardware & Storage Pool Dashboard Interface')">
                 <img src="assets/images/homelab2.png" alt="Proxmox VE Hardware & Storage Pool Dashboard Interface">
                 <div class="img-caption">
                     <span>Proxmox VE Hardware & Storage Pool Dashboard Interface</span>
-                    <span class="expand-hint">Click to Expand</span>
+                    <span class="expand-hint">Click to Expand (Desktop Only)</span>
                 </div>
             </div>
 
@@ -319,11 +324,11 @@
                 <li><strong>Reverse Proxy & Automated SSL/TLS:</strong> Integrated Nginx Proxy Manager to handle local SSL termination and route web traffic securely. Using Cloudflare DNS-01 API challenges, the system automatically provisions and renews Let's Encrypt wildcard certificates (<code>*.damonditrichs.com</code>), enabling secure internal HTTPS access without exposing raw ports to the public internet.</li>
             </ul>
 
-            <div class="img-container" onclick="openLightbox('assets/images/homelab3.png', 'Pi-hole Centralized DNS & Ad-Blocking Dashboard')">
+            <div class="img-container" onclick="if (window.innerWidth > 768) openLightbox('assets/images/homelab3.png', 'Pi-hole Centralized DNS & Ad-Blocking Dashboard')">
                 <img src="assets/images/homelab3.png" alt="Pi-hole Centralized DNS & Ad-Blocking Dashboard">
                 <div class="img-caption">
                     <span>Pi-hole Centralized DNS & Ad-Blocking Dashboard</span>
-                    <span class="expand-hint">Click to Expand</span>
+                    <span class="expand-hint">Click to Expand (Desktop Only)</span>
                 </div>
             </div>
 
@@ -334,135 +339,5 @@
                 <li><strong>Containerized Workloads:</strong> Deployed a dedicated Ubuntu Virtual Machine running an isolated Minecraft game server via Docker Compose, complete with automated restart policies and resource governance.</li>
             </ul>
 
-            <div class="img-container" onclick="openLightbox('assets/images/homelab4.png', 'Uptime Kuma Infrastructure Monitoring Dashboard & Service Health Metrics')">
-                <img src="assets/images/homelab4.png" alt="Uptime Kuma Infrastructure Monitoring Dashboard & Service Health Metrics">
-                <div class="img-caption">
-                    <span>Uptime Kuma Infrastructure Monitoring Dashboard & Service Health Metrics</span>
-                    <span class="expand-hint">Click to Expand</span>
-                </div>
-            </div>
-
-            <h2>4. Local Artificial Intelligence Integration</h2>
-            <p>
-                To explore modern machine learning workflows, I provisioned an LXC container running a self-hosted AI stack via Ollama and Open WebUI.
-            </p>
-            <ul>
-                <li><strong>Hardware Passthrough:</strong> Passed an NVIDIA GeForce GTX 1650 SUPER directly through the Proxmox hypervisor into the container using device nodes and cgroup permissions.</li>
-                <li><strong>Performance:</strong> This enables full GPU acceleration for local large language models (such as Qwen 2.5 and DeepSeek-R1), delivering hardware-accelerated local inference, coding assistance, and text generation entirely off-cloud.</li>
-            </ul>
-
-            <div class="img-container" onclick="openLightbox('assets/images/homelab5new.png', 'Open WebUI Chat Interface & Terminal GPU Usage Monitor')">
-                <img src="assets/images/homelab5new.png" alt="Open WebUI Chat Interface & Terminal GPU Usage Monitor">
-                <div class="img-caption">
-                    <span>Open WebUI Chat Interface & Terminal GPU Usage Monitor</span>
-                    <span class="expand-hint">Click to Expand</span>
-                </div>
-            </div>
-
-            <h2>5. Engineering Challenges & Troubleshooting</h2>
-            <p>
-                Building and scaling a homelab naturally involves overcoming technical roadblocks. Here are a few key engineering challenges I've navigated:
-            </p>
-            <ul>
-                <li><strong>Split-DNS and SSL Routing:</strong> Balancing local network resolution with external wildcard certificates required configuring Pi-hole custom DNS entries so that internal clients resolve domain names locally to their respective container IPs while still trusting the Nginx Proxy Manager SSL handshake.</li>
-                <li><strong>GPU Passthrough Permissions:</strong> Getting the local AI container to recognize the NVIDIA GPU required careful configuration of LXC device mapping (<code>/dev/nvidia*</code>), cgroup2 device allow rules, and manual bind-mounting of runtime hooks to ensure the container had direct hardware access without compromising host stability.</li>
-                <li><strong>Storage Bind-Mount Permissions:</strong> When attaching the bulk storage pool to the Jellyfin container, managing user and group UID/GID mappings between the Proxmox host and the unprivileged container ensured the service could read and write media files securely without permission drift.</li>
-            </ul>
-
-            <h2>6. Current Focus & Roadmap</h2>
-            <ul>
-                <li><strong>Professional Alignment:</strong> Using this environment to anchor my practical knowledge while actively studying for advanced IT and networking certifications.</li>
-                <li><strong>Infrastructure Expansion:</strong> Continuously hardening security boundaries, optimizing automated backup strategies, and expanding containerized monitoring workflows.</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Lightbox Modal Container -->
-    <div id="lightbox-modal" onclick="closeLightbox()">
-        <div class="lightbox-content" onclick="event.stopPropagation()">
-            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-            <img id="lightbox-img" src="" alt="Expanded View">
-            <div id="lightbox-caption" class="img-caption" style="margin-top: 10px; width: 100%;"></div>
-        </div>
-    </div>
-
-    <script>
-        function openLightbox(imgSrc, captionText) {
-            const modal = document.getElementById('lightbox-modal');
-            const modalImg = document.getElementById('lightbox-img');
-            const modalCaption = document.getElementById('lightbox-caption');
-            
-            modalImg.src = imgSrc;
-            modalCaption.innerText = captionText;
-            modal.classList.add('active');
-        }
-
-        function closeLightbox() {
-            const modal = document.getElementById('lightbox-modal');
-            modal.classList.remove('active');
-        }
-
-        const canvas = document.getElementById('ambient-canvas');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const particles = [];
-        const particleCount = Math.floor((canvas.width * canvas.height) / 18000);
-
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.4,
-                radius: Math.random() * 1.5 + 1
-            });
-        }
-
-        function animateAmbient() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-
-                    if (dist < 120) {
-                        ctx.strokeStyle = `rgba(185, 28, 28, ${1 - dist / 120})`;
-                        ctx.lineWidth = 0.8;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            ctx.fillStyle = '#b91c1c';
-            for (let p of particles) {
-                p.x += p.vx;
-                p.y += p.vy;
-
-                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
-
-            requestAnimationFrame(animateAmbient);
-        }
-
-        requestAnimationFrame(animateAmbient);
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
-</body>
-</html>
+            <div class="img-container" onclick="if (window.innerWidth > 768) openLightbox('assets/images/homelab4.png', 'Uptime Kuma Infrastructure Monitoring Dashboard & Service Health Metrics')">
+                <img src="assets/images/homelab4.png" alt="Uptime Kuma Infrastructure Monitoring
