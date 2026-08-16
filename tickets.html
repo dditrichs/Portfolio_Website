@@ -141,6 +141,8 @@
             border: 2px solid var(--border);
             box-shadow: 3px 3px 0px 0px var(--border);
             background: var(--bg);
+            position: relative;
+            cursor: pointer;
         }
         .img-container img {
             width: 100%;
@@ -156,6 +158,15 @@
             color: #fff;
             padding: 6px 10px;
             text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .expand-hint {
+            font-size: 9px;
+            background: var(--accent);
+            padding: 2px 6px;
+            text-transform: uppercase;
         }
         .item-desc {
             font-size: 14px;
@@ -164,6 +175,59 @@
             color: var(--muted);
         }
         @media (min-width: 768px) { .item-desc { font-size: 15px; } }
+
+        /* Lightbox modal overlay */
+        #lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(17, 17, 17, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        #lightbox-modal.active {
+            display: flex;
+        }
+        .lightbox-content {
+            position: relative;
+            max-width: 95%;
+            max-height: 95%;
+            border: 3px solid var(--border);
+            background: var(--surface);
+            box-shadow: 8px 8px 0px 0px var(--accent);
+            padding: 10px;
+        }
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            display: block;
+            margin: 0 auto;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: var(--accent);
+            color: #fff;
+            border: 2px solid var(--border);
+            font-weight: 900;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 2px 2px 0px 0px var(--border);
+        }
+        .lightbox-close:hover {
+            background: var(--border);
+        }
     </style>
 </head>
 <body>
@@ -190,9 +254,12 @@
 
             <div class="gallery">
                 <div>
-                    <div class="img-container">
+                    <div class="img-container" onclick="openLightbox('assets/images/ticket1.png', 'Help Desk Workspace & Queue Initialization')">
                         <img src="assets/images/ticket1.png" alt="Help Desk Workspace & Queue Initialization">
-                        <div class="img-caption">Help Desk Workspace & Queue Initialization</div>
+                        <div class="img-caption">
+                            <span>Help Desk Workspace & Queue Initialization</span>
+                            <span class="expand-hint">Click to Expand</span>
+                        </div>
                     </div>
                     <p class="item-desc">
                         Initial configuration of the Spiceworks Cloud Help Desk environment for the corporate organization <strong>ddserver</strong>. This workspace serves as the centralized command center for tracking incoming support volume, sorting active queues by priority and category, and managing agent workflows.
@@ -200,9 +267,12 @@
                 </div>
 
                 <div>
-                    <div class="img-container">
+                    <div class="img-container" onclick="openLightbox('assets/images/ticket2.png', 'Hardware Incident Ticket Submission')">
                         <img src="assets/images/ticket2.png" alt="Hardware Incident Ticket Submission">
-                        <div class="img-caption">Hardware Incident Ticket Submission</div>
+                        <div class="img-caption">
+                            <span>Hardware Incident Ticket Submission</span>
+                            <span class="expand-hint">Click to Expand</span>
+                        </div>
                     </div>
                     <p class="item-desc">
                         Creation of Ticket #3 detailing a critical hardware failure where a user's workstation monitor failed to display video signals. The intake parameters capture key diagnostic metrics: high priority status, hardware classification, pre-tested cabling states, user availability, and explicit contact preferences for efficient on-site response.
@@ -210,9 +280,12 @@
                 </div>
 
                 <div>
-                    <div class="img-container">
+                    <div class="img-container" onclick="openLightbox('assets/images/ticket3.png', 'Incident Response & Resolution Documentation')">
                         <img src="assets/images/ticket3.png" alt="Incident Response & Resolution Documentation">
-                        <div class="img-caption">Incident Response & Resolution Documentation</div>
+                        <div class="img-caption">
+                            <span>Incident Response & Resolution Documentation</span>
+                            <span class="expand-hint">Click to Expand</span>
+                        </div>
                     </div>
                     <p class="item-desc">
                         Demonstrates full ticket lifecycle management. After accepting the incident and performing on-site troubleshooting—confirming secure physical connections, functional spare cables, and isolating a faulty internal video port via a known-good test display—the issue was remediated by swapping the monitor. A detailed internal resolution note was logged for future team reference prior to closing.
@@ -220,9 +293,12 @@
                 </div>
 
                 <div>
-                    <div class="img-container">
+                    <div class="img-container" onclick="openLightbox('assets/images/ticket4.png', 'Cross-Departmental Escalation & Privileged Access')">
                         <img src="assets/images/ticket4.png" alt="Cross-Departmental Escalation & Privileged Access">
-                        <div class="img-caption">Cross-Departmental Escalation & Privileged Access</div>
+                        <div class="img-caption">
+                            <span>Cross-Departmental Escalation & Privileged Access</span>
+                            <span class="expand-hint">Click to Expand</span>
+                        </div>
                     </div>
                     <p class="item-desc">
                         Illustrates escalation handling for requests exceeding Tier-1 permissions (Ticket #5: Database access modification and custom schema deployment). Adhering to the principle of least privilege, a dedicated staff account was configured for the <strong>Database Admin Team</strong>, and the ticket was reassigned alongside a professional public handoff note outlining the scope of required privileges.
@@ -232,7 +308,31 @@
         </div>
     </div>
 
+    <!-- Lightbox Modal Container -->
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img id="lightbox-img" src="" alt="Expanded View">
+            <div id="lightbox-caption" class="img-caption" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+
     <script>
+        function openLightbox(imgSrc, captionText) {
+            const modal = document.getElementById('lightbox-modal');
+            const modalImg = document.getElementById('lightbox-img');
+            const modalCaption = document.getElementById('lightbox-caption');
+            
+            modalImg.src = imgSrc;
+            modalCaption.innerText = captionText;
+            modal.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('active');
+        }
+
         const canvas = document.getElementById('ambient-canvas');
         const ctx = canvas.getContext('2d');
 
