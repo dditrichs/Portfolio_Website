@@ -188,31 +188,36 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
         }
         #lightbox-modal.active {
             display: flex;
         }
         .lightbox-content {
             position: relative;
-            max-width: 95%;
-            max-height: 95%;
+            width: 98vw;
+            max-width: 98vw;
+            max-height: 98vh;
             border: 3px solid var(--border);
             background: var(--surface);
-            box-shadow: 8px 8px 0px 0px var(--accent);
+            box-shadow: 8px 8px 0px 0px var(--border);
             padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .lightbox-content img {
-            max-width: 100%;
-            max-height: 80vh;
+            width: 100%;
+            height: auto;
+            max-height: 85vh;
+            object-fit: contain;
             display: block;
-            margin: 0 auto;
         }
         .lightbox-close {
             position: absolute;
             top: -15px;
             right: -15px;
-            background: var(--accent);
+            background: var(--border);
             color: #fff;
             border: 2px solid var(--border);
             font-weight: 900;
@@ -226,7 +231,7 @@
             box-shadow: 2px 2px 0px 0px var(--border);
         }
         .lightbox-close:hover {
-            background: var(--border);
+            background: var(--accent);
         }
     </style>
 </head>
@@ -313,7 +318,7 @@
         <div class="lightbox-content" onclick="event.stopPropagation()">
             <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
             <img id="lightbox-img" src="" alt="Expanded View">
-            <div id="lightbox-caption" class="img-caption" style="margin-top: 10px;"></div>
+            <div id="lightbox-caption" class="img-caption" style="margin-top: 10px; width: 100%;"></div>
         </div>
     </div>
 
