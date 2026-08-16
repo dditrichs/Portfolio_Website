@@ -163,8 +163,15 @@
             border: 2px solid var(--border);
             box-shadow: 3px 3px 0px 0px var(--border);
             background: var(--bg);
-            cursor: pointer;
             position: relative;
+            width: 100%;
+            cursor: default;
+        }
+        /* Enable cursor pointer on computer (min-width: 768px) only */
+        @media (min-width: 768px) {
+            .img-container {
+                cursor: pointer;
+            }
         }
         .img-container img {
             width: 100%;
@@ -184,14 +191,23 @@
             justify-content: space-between;
             align-items: center;
         }
+        
+        /* By default, hide "Click to Expand" on mobile */
         .expand-hint {
+            display: none;
             font-size: 9px;
             background: var(--accent);
             padding: 2px 6px;
             text-transform: uppercase;
         }
+        /* Show "Click to Expand" on desktop (min-width: 768px) only */
+        @media (min-width: 768px) {
+            .expand-hint {
+                display: inline-block;
+            }
+        }
 
-        /* Lightbox modal overlay - hidden by default on all devices */
+        /* Lightbox modal overlay */
         #lightbox-modal {
             display: none;
             position: fixed;
@@ -206,11 +222,8 @@
             padding: 10px;
             overflow-y: auto;
         }
-        /* Only display the lightbox on screens wider than 768px (computers) */
-        @media (min-width: 768px) {
-            #lightbox-modal.active {
-                display: flex;
-            }
+        #lightbox-modal.active {
+            display: flex;
         }
         
         .lightbox-content {
@@ -283,20 +296,19 @@
                 <li><strong>Resource Isolation:</strong> Each service is isolated with strict vCPU and RAM allocations, ensuring that heavy background tasks do not destabilize core network functions.</li>
             </ul>
 
-            <!-- The 'onclick' event for the lightbox is now active only on screens > 768px -->
-            <div class="img-container" onclick="if (window.innerWidth > 768) openLightbox('assets/images/homelab1.jpg', 'Physical Bare-Metal Server Hardware Setup & Chassis Interior')">
+            <div class="img-container" onclick="openLightbox('assets/images/homelab1.jpg', 'Physical Bare-Metal Server Hardware Setup & Chassis Interior')">
                 <img src="assets/images/homelab1.jpg" alt="Physical Bare-Metal Server Hardware Setup & Chassis Interior">
                 <div class="img-caption">
                     <span>Physical Bare-Metal Server Hardware Setup & Chassis Interior</span>
-                    <span class="expand-hint">Click to Expand (Desktop Only)</span>
+                    <span class="expand-hint">Click to Expand</span>
                 </div>
             </div>
 
-            <div class="img-container" onclick="if (window.innerWidth > 768) openLightbox('assets/images/homelab2.png', 'Proxmox VE Hardware & Storage Pool Dashboard Interface')">
+            <div class="img-container" onclick="openLightbox('assets/images/homelab2.png', 'Proxmox VE Hardware & Storage Pool Dashboard Interface')">
                 <img src="assets/images/homelab2.png" alt="Proxmox VE Hardware & Storage Pool Dashboard Interface">
                 <div class="img-caption">
                     <span>Proxmox VE Hardware & Storage Pool Dashboard Interface</span>
-                    <span class="expand-hint">Click to Expand (Desktop Only)</span>
+                    <span class="expand-hint">Click to Expand</span>
                 </div>
             </div>
 
@@ -324,11 +336,11 @@
                 <li><strong>Reverse Proxy & Automated SSL/TLS:</strong> Integrated Nginx Proxy Manager to handle local SSL termination and route web traffic securely. Using Cloudflare DNS-01 API challenges, the system automatically provisions and renews Let's Encrypt wildcard certificates (<code>*.damonditrichs.com</code>), enabling secure internal HTTPS access without exposing raw ports to the public internet.</li>
             </ul>
 
-            <div class="img-container" onclick="if (window.innerWidth > 768) openLightbox('assets/images/homelab3.png', 'Pi-hole Centralized DNS & Ad-Blocking Dashboard')">
+            <div class="img-container" onclick="openLightbox('assets/images/homelab3.png', 'Pi-hole Centralized DNS & Ad-Blocking Dashboard')">
                 <img src="assets/images/homelab3.png" alt="Pi-hole Centralized DNS & Ad-Blocking Dashboard">
                 <div class="img-caption">
                     <span>Pi-hole Centralized DNS & Ad-Blocking Dashboard</span>
-                    <span class="expand-hint">Click to Expand (Desktop Only)</span>
+                    <span class="expand-hint">Click to Expand</span>
                 </div>
             </div>
 
@@ -339,5 +351,105 @@
                 <li><strong>Containerized Workloads:</strong> Deployed a dedicated Ubuntu Virtual Machine running an isolated Minecraft game server via Docker Compose, complete with automated restart policies and resource governance.</li>
             </ul>
 
-            <div class="img-container" onclick="if (window.innerWidth > 768) openLightbox('assets/images/homelab4.png', 'Uptime Kuma Infrastructure Monitoring Dashboard & Service Health Metrics')">
-                <img src="assets/images/homelab4.png" alt="Uptime Kuma Infrastructure Monitoring
+            <div class="img-container" onclick="openLightbox('assets/images/homelab4.png', 'Uptime Kuma Infrastructure Monitoring Dashboard & Service Health Metrics')">
+                <img src="assets/images/homelab4.png" alt="Uptime Kuma Infrastructure Monitoring Dashboard & Service Health Metrics">
+                <div class="img-caption">
+                    <span>Uptime Kuma Infrastructure Monitoring Dashboard & Service Health Metrics</span>
+                    <span class="expand-hint">Click to Expand</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal Container -->
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img id="lightbox-img" src="" alt="Expanded View">
+            <div id="lightbox-caption" class="img-caption" style="margin-top: 10px; width: 100%;"></div>
+        </div>
+    </div>
+
+    <script>
+        function openLightbox(imgSrc, captionText) {
+            // Only allow lightbox to open on desktop screens (min-width: 768px)
+            if (window.innerWidth < 768) return;
+
+            const modal = document.getElementById('lightbox-modal');
+            const modalImg = document.getElementById('lightbox-img');
+            const modalCaption = document.getElementById('lightbox-caption');
+            
+            modalImg.src = imgSrc;
+            modalCaption.innerText = captionText;
+            modal.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('active');
+        }
+
+        const canvas = document.getElementById('ambient-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = Math.floor((canvas.width * canvas.height) / 18000);
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                radius: Math.random() * 1.5 + 1
+            });
+        }
+
+        function animateAmbient() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 120) {
+                        ctx.strokeStyle = `rgba(185, 28, 28, ${1 - dist / 120})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            ctx.fillStyle = '#b91c1c';
+            for (let p of particles) {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            requestAnimationFrame(animateAmbient);
+        }
+
+        requestAnimationFrame(animateAmbient);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
