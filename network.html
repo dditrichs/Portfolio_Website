@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Network Topology & DNS Security — Damon Ditrichs</title>
+    <title>Active Directory Infrastructure & Provisioning — Damon Ditrichs</title>
     <style>
         :root {
             --bg: #f4f4f0;
@@ -13,9 +12,13 @@
             --muted: #555555;
             --accent: #b91c1c;
             --border: #111111;
-            --server-fg: #d4d4d8;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: var(--bg);
             color: var(--fg);
@@ -24,9 +27,26 @@
             display: flex;
             justify-content: center;
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
         @media (min-width: 768px) { body { padding: 40px 20px 160px 20px; } }
+
+        /* Ambient background canvas */
+        #ambient-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.12;
+        }
+
         .wrapper {
+            position: relative;
+            z-index: 1;
             width: 100%;
             max-width: 900px;
             border: 3px solid var(--border);
@@ -44,6 +64,7 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: 0px 4px 0px 0px var(--border);
+            z-index: 10;
         }
         @media (min-width: 768px) { .quick-nav { margin: -50px -50px 35px -50px; padding: 10px 15px; } }
         .quick-nav-title {
@@ -65,10 +86,16 @@
             border: 1px solid var(--border);
             padding: 4px 8px;
             box-shadow: 1px 1px 0px 0px var(--border);
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
         }
         @media (min-width: 768px) { .quick-link-btn { font-size: 10px; } }
-        .quick-link-btn:hover { background: var(--accent); color: #ffffff; }
-        .section-block { margin-bottom: 30px; }
+        .quick-link-btn:hover { 
+            background: var(--accent); 
+            color: #ffffff; 
+            transform: translate(-1px, -1px);
+            box-shadow: 2px 2px 0px 0px var(--border);
+        }
+        .section-block { margin-bottom: 35px; }
         .project-tag {
             font-size: 11px;
             font-weight: 900;
@@ -87,6 +114,14 @@
             letter-spacing: -1px;
         }
         @media (min-width: 768px) { h1 { font-size: 34px; } }
+        h3 {
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 28px 0 12px 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 6px;
+        }
         .bio {
             font-size: 14px;
             line-height: 1.7;
@@ -95,48 +130,319 @@
             margin-bottom: 16px;
         }
         @media (min-width: 768px) { .bio { font-size: 16px; } }
-        .spec-box {
-            background: var(--bg);
-            border: 2px solid var(--border);
-            padding: 16px;
-            margin-top: 25px;
-            font-family: monospace;
-            font-size: 12px;
-            box-shadow: 3px 3px 0px 0px var(--border);
+        .gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 35px;
+            margin-top: 20px;
         }
-        .spec-box h4 {
-            font-weight: 900;
+        .img-container {
+            margin: 0 0 14px 0;
+            border: 2px solid var(--border);
+            box-shadow: 3px 3px 0px 0px var(--border);
+            background: var(--bg);
+            position: relative;
+            width: 100%;
+            cursor: default;
+        }
+        @media (min-width: 768px) {
+            .img-container {
+                cursor: pointer;
+            }
+        }
+        .img-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .img-caption {
+            font-family: monospace;
+            font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
-            margin-bottom: 8px;
-            color: var(--fg);
+            background: var(--border);
+            color: #fff;
+            padding: 6px 10px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .expand-hint {
+            display: none;
+            font-size: 9px;
+            background: var(--accent);
+            padding: 2px 6px;
+            text-transform: uppercase;
+        }
+        @media (min-width: 768px) {
+            .expand-hint {
+                display: inline-block;
+            }
+        }
+
+        .item-desc {
+            font-size: 14px;
+            line-height: 1.7;
+            font-weight: 500;
+            color: var(--muted);
+        }
+        @media (min-width: 768px) { .item-desc { font-size: 15px; } }
+
+        /* Lightbox modal overlay */
+        #lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(17, 17, 17, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        #lightbox-modal.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            width: 100%;
+            max-width: 1450px;
+            border: 3px solid var(--border);
+            background: var(--surface);
+            box-shadow: 8px 8px 0px 0px var(--border);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: auto;
+        }
+        .lightbox-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+            image-rendering: auto;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: var(--border);
+            color: #fff;
+            border: 2px solid var(--border);
+            font-weight: 900;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 2px 2px 0px 0px var(--border);
+            z-index: 1010;
+        }
+        .lightbox-close:hover {
+            background: var(--accent);
         }
     </style>
 </head>
 <body>
+
+    <canvas id="ambient-canvas"></canvas>
+
     <div class="wrapper">
         <nav class="quick-nav">
             <span class="quick-nav-title">Project Subpage</span>
-            <a href="index.html" class="quick-link-btn">&larr; Back to Home</a>
+            <a href="../../index.html" class="quick-link-btn">&larr; Back to Home</a>
         </nav>
 
         <div class="section-block">
-            <div class="project-tag">Security Layer</div>
-            <h1>Network Topology & DNS Security</h1>
+            <div class="project-tag">Systems Administration &bull; IT Portfolio</div>
+            <h1>Active Directory Infrastructure & Provisioning</h1>
             <p class="bio">
-                Internal network infrastructure relies on strict DNS filtering and recursive query processing to eliminate outbound tracking headers and safeguard local client nodes.
+                This project demonstrates the complete deployment, configuration, and automated management of an enterprise-grade Windows Server environment using Oracle VirtualBox. Built to model core corporate infrastructure workflows under the custom domain <strong>mydomain.com</strong>, the environment encompasses Active Directory Domain Services (AD DS), Routing and Remote Access (RRAS) NAT, DHCP scope allocation, PowerShell bulk object provisioning, and client workstation domain integration.
             </p>
+
+            <h3>Infrastructure Architecture & Automation Workflow</h3>
             <p class="bio">
-                <strong>DNS Path:</strong> Local client queries target Pi-hole running inside container 100. Unresolved external lookups are passed securely via recursive local validation through Unbound over encrypted channels, completely circumventing upstream ISP telemetry collection.
+                To showcase professional systems administration capabilities, the lab was engineered to handle core network services—ranging from foundational hypervisor configuration and directory promotion to automated user provisioning via PowerShell and client domain binding.
             </p>
-            <div class="spec-box">
-                <h4>Tunneling & Access Control</h4>
-                <p style="color:var(--server-fg); margin:0;">
-                    • WireGuard Gateway deployed for encrypted remote management tunnels.<br>
-                    • Local firewall rule sets restricting inter-VLAN guest traffic.<br>
-                    • Real-time alert dispatch configured through Uptime Kuma webhooks.
-                </p>
+
+            <div class="gallery">
+                <div>
+                    <div class="img-container" onclick="openLightbox('assets/images/AD1.png', 'Domain Controller VM Configuration')">
+                        <img src="assets/images/AD1.png" alt="Domain Controller VM Configuration">
+                        <div class="img-caption">
+                            <span>Domain Controller VM Configuration</span>
+                            <span class="expand-hint">Click to Expand</span>
+                        </div>
+                    </div>
+                    <p class="item-desc">
+                        Initial setup and configuration of the Windows Server 2019 Standard Evaluation domain controller VM within Oracle VirtualBox. This view outlines hardware allocations, nested virtualization parameters, and dual network adapters configured for NAT and internal network routing.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="img-container" onclick="openLightbox('assets/images/AD2.png', 'Active Directory Domain Promotion')">
+                        <img src="assets/images/AD2.png" alt="Active Directory Domain Promotion">
+                        <div class="img-caption">
+                            <span>Active Directory Domain Promotion</span>
+                            <span class="expand-hint">Click to Expand</span>
+                        </div>
+                    </div>
+                    <p class="item-desc">
+                        Active Directory Users and Computers (ADUC) management console validating the successful promotion of the Windows Server instance to a domain controller for the custom forest root <strong>mydomain.com</strong>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="img-container" onclick="openLightbox('assets/images/AD3.png', 'Routing, Remote Access & NAT Configuration')">
+                        <img src="assets/images/AD3.png" alt="Routing, Remote Access & NAT Configuration">
+                        <div class="img-caption">
+                            <span>Routing, Remote Access & NAT Configuration</span>
+                            <span class="expand-hint">Click to Expand</span>
+                        </div>
+                    </div>
+                    <p class="item-desc">
+                        Routing and Remote Access Service (RRAS) management console configured with Network Address Translation (NAT). This setup enables domain-joined clients on the internal subnet to securely route internet traffic through the domain controller gateway.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="img-container" onclick="openLightbox('assets/images/AD4.png', 'DHCP Scope Deployment & Lease Management')">
+                        <img src="assets/images/AD4.png" alt="DHCP Scope Deployment & Lease Management">
+                        <div class="img-caption">
+                            <span>DHCP Scope Deployment & Lease Management</span>
+                            <span class="expand-hint">Click to Expand</span>
+                        </div>
+                    </div>
+                    <p class="item-desc">
+                        DHCP server role deployment configured with an active IPv4 scope range (`172.16.0.0/16` with pool `172.16.0.100-200`) to automate dynamic IP address allocation for internal network clients.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="img-container" onclick="openLightbox('assets/images/AD5.png', 'PowerShell Automated Bulk User Provisioning')">
+                        <img src="assets/images/AD5.png" alt="PowerShell Automated Bulk User Provisioning">
+                        <div class="img-caption">
+                            <span>PowerShell Automated Bulk User Provisioning</span>
+                            <span class="expand-hint">Click to Expand</span>
+                        </div>
+                    </div>
+                    <p class="item-desc">
+                        Windows PowerShell ISE executing an automated script to parse a dataset, generate secure credentials, create organizational units, and provision user accounts into the designated security group with password policies enforced.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="img-container" onclick="openLightbox('assets/images/AD6.png', 'Client Workstation Domain Integration')">
+                        <img src="assets/images/AD6.png" alt="Client Workstation Domain Integration">
+                        <div class="img-caption">
+                            <span>Client Workstation Domain Integration</span>
+                            <span class="expand-hint">Click to Expand</span>
+                        </div>
+                    </div>
+                    <p class="item-desc">
+                        Verification of client workstation network configuration pointing to the domain controller, displaying a successful DHCP lease assignment (`172.16.0.100`) and active domain connectivity to <strong>mydomain.com</strong>.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Lightbox Modal Container -->
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img id="lightbox-img" src="" alt="Expanded View">
+            <div id="lightbox-caption" class="img-caption" style="margin-top: 10px; width: 100%;"></div>
+        </div>
+    </div>
+
+    <script>
+        function openLightbox(imgSrc, captionText) {
+            if (window.innerWidth < 768) return;
+
+            const modal = document.getElementById('lightbox-modal');
+            const modalImg = document.getElementById('lightbox-img');
+            const modalCaption = document.getElementById('lightbox-caption');
+            
+            modalImg.src = imgSrc;
+            modalCaption.innerText = captionText;
+            modal.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('active');
+        }
+
+        const canvas = document.getElementById('ambient-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = Math.floor((canvas.width * canvas.height) / 18000);
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                radius: Math.random() * 1.5 + 1
+            });
+        }
+
+        function animateAmbient() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 120) {
+                        ctx.strokeStyle = `rgba(185, 28, 28, ${1 - dist / 120})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            ctx.fillStyle = '#b91c1c';
+            for (let p of particles) {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            requestAnimationFrame(animateAmbient);
+        }
+
+        requestAnimationFrame(animateAmbient);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
 </html>
