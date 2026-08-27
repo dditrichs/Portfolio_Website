@@ -792,11 +792,29 @@
     <h2>// Direct Contact</h2>
     <div class="contact-box">
         <div class="contact-text">Currently seeking full-time IT Support and Help Desk opportunities. Let’s connect!</div>
-        <a href="mailto:dditrichs@gmail.com" class="contact-btn" target="_blank" rel="noopener noreferrer">
-            dditrichs@gmail.com &rarr;
-        </a>
+        <button id="emailBtn" onclick="copyEmail()" class="contact-btn" style="cursor: pointer;">
+            Copy Email Address &rarr;
+        </button>
     </div>
 </div>
+
+<script>
+function copyEmail() {
+    const email = 'dditrichs@gmail.com';
+    navigator.clipboard.writeText(email).then(() => {
+        const btn = document.getElementById('emailBtn');
+        btn.innerHTML = 'Copied to Clipboard! ✓';
+        btn.style.backgroundColor = '#00e676';
+        btn.style.color = '#000000';
+        
+        setTimeout(() => {
+            btn.innerHTML = 'Copy Email Address &rarr;';
+            btn.style.backgroundColor = '';
+            btn.style.color = '';
+        }, 2500);
+    });
+}
+</script>
 
         <footer>
             <span>&copy; 2026 Damon Ditrichs</span>
