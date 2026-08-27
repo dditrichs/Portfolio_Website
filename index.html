@@ -792,9 +792,21 @@
     <h2>// Direct Contact</h2>
     <div class="contact-box">
         <div class="contact-text">Currently seeking full-time IT Support and Help Desk opportunities. Let’s connect!</div>
-        <button id="emailBtn" onclick="copyEmail()" class="contact-btn" style="cursor: pointer;">
-            Copy Email Address &rarr;
-        </button>
+        
+        <!-- Email + Copy Icon Button Wrapper -->
+        <div class="email-container" style="display: inline-flex; align-items: center; gap: 10px; background: #111; border: 2px solid #fff; padding: 8px 14px; border-radius: 4px;">
+            <a href="mailto:dditrichs@gmail.com" class="email-link" style="color: #fff; font-family: monospace; font-size: 1rem; text-decoration: none; font-weight: bold;">
+                dditrichs@gmail.com
+            </a>
+            
+            <button id="copyBtn" onclick="copyEmail()" title="Copy Email Address" style="background: transparent; border: none; cursor: pointer; color: #fff; display: flex; align-items: center; padding: 4px; border-radius: 3px; transition: background 0.2s;">
+                <!-- Standard Dual-Square Copy Icon SVG -->
+                <svg id="copyIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </button>
+        </div>
     </div>
 </div>
 
@@ -802,16 +814,15 @@
 function copyEmail() {
     const email = 'dditrichs@gmail.com';
     navigator.clipboard.writeText(email).then(() => {
-        const btn = document.getElementById('emailBtn');
-        btn.innerHTML = 'Copied to Clipboard! ✓';
-        btn.style.backgroundColor = '#00e676';
-        btn.style.color = '#000000';
+        const btn = document.getElementById('copyBtn');
         
+        // Swap icon to green checkmark
+        btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+        
+        // Revert back to square copy icon after 2 seconds
         setTimeout(() => {
-            btn.innerHTML = 'Copy Email Address &rarr;';
-            btn.style.backgroundColor = '';
-            btn.style.color = '';
-        }, 2500);
+            btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+        }, 2000);
     });
 }
 </script>
