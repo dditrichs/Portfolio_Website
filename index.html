@@ -456,7 +456,7 @@
             background: var(--bg);
         }
 
-        .cert-box, .resume-box, .contact-box {
+        .cert-box, .-box, .contact-box {
             border: 2px solid var(--border);
             padding: 18px;
             background: var(--bg);
@@ -469,7 +469,7 @@
         }
 
         @media (min-width: 768px) {
-            .cert-box, .resume-box, .contact-box { padding: 22px; }
+            .cert-box, .-box, .contact-box { padding: 22px; }
         }
 
         .cert-box {
@@ -487,7 +487,7 @@
             }
         }
 
-        .cert-info h3, .resume-text h3 {
+        .cert-info h3, .-text h3 {
             font-size: 15px;
             font-weight: 900;
             text-transform: uppercase;
@@ -495,10 +495,10 @@
         }
 
         @media (min-width: 768px) {
-            .cert-info h3, .resume-text h3 { font-size: 16px; }
+            .cert-info h3, .-text h3 { font-size: 16px; }
         }
 
-        .cert-info p, .resume-text p {
+        .cert-info p, .-text p {
             font-size: 13px;
             color: var(--muted);
             font-weight: 600;
@@ -548,10 +548,10 @@
             display: block;
         }
 
-        .resume-actions { display: flex; gap: 10px; width: 100%; justify-content: center; }
+        .-actions { display: flex; gap: 10px; width: 100%; justify-content: center; }
 
         @media (min-width: 768px) {
-            .resume-actions { width: auto; justify-content: flex-start; }
+            .-actions { width: auto; justify-content: flex-start; }
         }
 
         .btn {
@@ -641,7 +641,7 @@
                 <a href="#tech-stack" class="quick-link-btn">Tech</a>
                 <a href="#projects" class="quick-link-btn">Projects</a>
                 <a href="#certs" class="quick-link-btn">Certs</a>
-                <a href="#resume" class="quick-link-btn">Resume</a>
+                <a href="#" class="quick-link-btn"></a>
                 <a href="#contact" class="quick-link-btn">Contact</a>
             </div>
         </nav>
@@ -809,7 +809,7 @@
 
 <div id="resume" class="section-block">
     <h2>// Background & Resume</h2>
-    <div class="resume-box">
+    <div class="resume-box" style="background: #ffffff;">
         <div class="resume-text">
             <h3>Professional Resume</h3>
             <p>Review detailed academic background, systems administration experience, and project work history.</p>
