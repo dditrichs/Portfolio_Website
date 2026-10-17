@@ -128,28 +128,6 @@
             margin-bottom: 16px;
         }
         @media (min-width: 768px) { .bio { font-size: 16px; } }
-
-        .step-instructions {
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 16px;
-            color: var(--fg);
-        }
-
-        .step-instructions ol {
-            margin-left: 20px;
-            margin-bottom: 12px;
-        }
-
-        .step-instructions ul {
-            margin-left: 20px;
-            margin-top: 6px;
-            margin-bottom: 6px;
-        }
-
-        .step-instructions li {
-            margin-bottom: 6px;
-        }
         
         .gallery {
             display: grid;
@@ -299,191 +277,145 @@
         <div class="section-block">
             <h1>Microsoft 365 & Entra ID Security Lab</h1>
             <p class="bio">
-                A hands-on walkthrough demonstrating core Microsoft 365 administration, cloud user lifecycle management, Exchange Online shared mailbox delegation, and Microsoft Entra ID Zero-Trust Security policies including Multi-Factor Authentication (MFA) and Conditional Access enforcement.
+                This lab project demonstrates the architecture and administrative management of an enterprise cloud identity environment using Microsoft 365 and Microsoft Entra ID (formerly Azure Active Directory). Configured under the domain <strong>ddsever.onmicrosoft.com</strong>, the environment simulates core Help Desk workflows, identity lifecycle management, Exchange Online delegation, account security remediation, and Zero-Trust Conditional Access policies.
             </p>
 
-            <h3>Phase 1: Environment Setup</h3>
-            <div class="step-instructions">
-                <ol>
-                    <li>Open a Private / Incognito browser window.</li>
-                    <li>Go to the Microsoft 365 Business Premium product page and click <strong>Try free for 1 month</strong>.</li>
-                    <li><strong>Sign-Up Flow:</strong>
-                        <ul>
-                            <li>Enter your email address to get started and select <strong>Set up account</strong>.</li>
-                            <li>Enter organization details: Damon Ditrichs, Business Name (DDSEVER Tech Lab), size: 1 person.</li>
-                            <li>Specify sign-in identity: Set domain name prefix to <code>ddsever</code> (domain: <code>ddsever.onmicrosoft.com</code>).</li>
-                            <li>Set Global Admin username: <code>admin</code> (Full Admin ID: <code>admin@ddsever.onmicrosoft.com</code>).</li>
-                        </ul>
-                    </li>
-                    <li>Complete verification and immediately turn off recurring billing under <strong>Billing &gt; Your products</strong> to avoid charges.</li>
-                </ol>
-            </div>
+            <h3>Enterprise Tenant Provisioning & Domain Setup</h3>
+            <p class="bio">
+                To build a realistic enterprise environment without running up unnecessary subscription fees, I deployed a full Microsoft 365 Business Premium developer tenant. Setting up the root administrative account (<code>admin@ddsever.onmicrosoft.com</code>) established the base infrastructure required for enforcing tenant-wide security policies, managing licensing allocations, and configuring cloud services.
+            </p>
 
             <div class="gallery">
                 <div>
                     <div class="img-container" onclick="openLightbox('assets/images/365_1.png', 'Microsoft 365 Admin Center Dashboard')">
                         <img src="assets/images/365_1.png" alt="Microsoft 365 Admin Center Dashboard">
                         <div class="img-caption">
-                            <span>Step 1: M365 Tenant Dashboard</span>
+                            <span>M365 Tenant Dashboard & Domain Initialization</span>
                             <span class="expand-hint">Click to Expand</span>
                         </div>
                     </div>
                     <p class="item-desc">
-                        The Microsoft 365 Admin Center Dashboard displaying active organization domain <code>ddsever.onmicrosoft.com</code> and primary administrator account <code>admin@ddsever.onmicrosoft.com</code>.
+                        Initial configuration of the Microsoft 365 Admin Center for the organization domain <code>ddsever.onmicrosoft.com</code>. This administrative portal serves as the primary hub for monitoring active tenant services, managing licenses, inspecting billing state, and auditing system health.
                     </p>
                     <blockquote class="github-note">
-                        <strong>GitHub Note:</strong> "Provisioned an enterprise Microsoft 365 tenant environment (ddsever.onmicrosoft.com) with full administrative rights to simulate enterprise cloud identity management and Help Desk escalation workflows."
+                        <strong>Technical Summary:</strong> Provisioned an enterprise Microsoft 365 tenant environment (ddsever.onmicrosoft.com) with full administrative rights to simulate cloud identity management and Help Desk escalation workflows.
                     </blockquote>
                 </div>
             </div>
 
-            <h3>Phase 2: User Lifecycle & Identity Management</h3>
+            <h3>Cloud User Lifecycle & Role-Based Access Control (RBAC)</h3>
+            <p class="bio">
+                Standardized employee onboarding procedures require assigning granular access permissions while preventing privilege creep. Using standard operating procedures (SOP), I provisioned user accounts with role-specific attributes and enforced Role-Based Access Control (RBAC) via security groups rather than assigning permissions directly to standalone accounts.
+            </p>
+
             <div class="gallery">
                 <div>
-                    <div class="step-instructions">
-                        <strong>Step 2: Onboard a New Employee (User Provisioning)</strong>
-                        <ol>
-                            <li>Navigate to <strong>Users &gt; Active users</strong> in the Admin Center and click <strong>Add a user</strong>.</li>
-                            <li>Enter user details: <strong>Jordan Miller</strong>, Username: <code>jmiller</code> (<code>jmiller@ddsever.onmicrosoft.com</code>).</li>
-                            <li>Set temporary password settings: <em>Automatically generate a password</em> and enforce <em>Require password change upon first sign-in</em>.</li>
-                            <li>Assign Microsoft 365 Business Premium license and set Department to <strong>Information Technology</strong>.</li>
-                        </ol>
-                    </div>
                     <div class="img-container" onclick="openLightbox('assets/images/365_2.png', 'Active User Profile for Jordan Miller')">
                         <img src="assets/images/365_2.png" alt="Active User Profile for Jordan Miller">
                         <div class="img-caption">
-                            <span>Step 2: User Provisioning (Jordan Miller)</span>
+                            <span>User Provisioning & Licensing Allocation</span>
                             <span class="expand-hint">Click to Expand</span>
                         </div>
                     </div>
                     <p class="item-desc">
-                        Active user profile page for Jordan Miller showing assigned license, Department: Information Technology, domain <code>ddsever.onmicrosoft.com</code>, and forced initial password reset requirement.
+                        Onboarded standard cloud user account for Jordan Miller (<code>jmiller@ddsever.onmicrosoft.com</code>) under the Information Technology department. Configured initial account setup settings by assigning a Microsoft 365 Business Premium license and enabling mandatory password changes upon first authentication.
                     </p>
                     <blockquote class="github-note">
-                        <strong>GitHub Note:</strong> "Executed Tier 1 user provisioning onboarding SOP: created cloud user account, applied Role-Based Access Control (RBAC) attributes, assigned M365 Business Premium licensing, and enforced initial sign-in credential updates."
+                        <strong>Technical Summary:</strong> Executed Tier 1 user provisioning onboarding standard operating procedures (SOP): created cloud user account, applied Role-Based Access Control (RBAC) attributes, assigned M365 Business Premium licensing, and enforced initial sign-in credential updates.
                     </blockquote>
                 </div>
 
                 <div>
-                    <div class="step-instructions">
-                        <strong>Step 3: Configure Security Groups & Role-Based Access Control (RBAC)</strong>
-                        <ol>
-                            <li>Go to <strong>Teams & groups &gt; Active teams & groups &gt; Security</strong> and click <strong>Add a security group</strong>.</li>
-                            <li>Create group named <code>SG-IT-Support-Tier1</code>.</li>
-                            <li>Under <strong>Members</strong>, add <code>jmiller@ddsever.onmicrosoft.com</code> to assign group-based permissions.</li>
-                        </ol>
-                    </div>
                     <div class="img-container" onclick="openLightbox('assets/images/365_3.png', 'Security Group Detail Panel')">
                         <img src="assets/images/365_3.png" alt="Security Group Detail Panel">
                         <div class="img-caption">
-                            <span>Step 3: RBAC Security Group Configuration</span>
+                            <span>Security Group Administration & RBAC Scoping</span>
                             <span class="expand-hint">Click to Expand</span>
                         </div>
                     </div>
                     <p class="item-desc">
-                        The <code>SG-IT-Support-Tier1</code> security group detail panel displaying Jordan Miller as an active group member for simplified auditing and least-privilege administrative scoping.
+                        Created the <code>SG-IT-Support-Tier1</code> security group to manage access controls for frontline support personnel. By populating team accounts into designated security groups, administrative rights and resource access can be audited and modified centrally rather than managed on a per-user basis.
                     </p>
                     <blockquote class="github-note">
-                        <strong>GitHub Note:</strong> "Implemented Principle of Least Privilege via Security Group administration (SG-IT-Support-Tier1) to streamline bulk permission auditing and access control."
+                        <strong>Technical Summary:</strong> Implemented Principle of Least Privilege via Security Group administration (SG-IT-Support-Tier1) to streamline bulk permission auditing and access control.
                     </blockquote>
                 </div>
             </div>
 
-            <h3>Phase 3: Exchange Online & Mailbox Administration</h3>
+            <h3>Exchange Online Mailbox Delegation</h3>
+            <p class="bio">
+                In enterprise support organizations, teams frequently share centralized mailboxes for incoming support tickets and general client communication. To minimize licensing overhead and maintain strict administrative oversight, I deployed an Exchange Online Shared Mailbox and delegated granular permissions across the support team.
+            </p>
+
             <div class="gallery">
                 <div>
-                    <div class="step-instructions">
-                        <strong>Step 4: Create a Shared Mailbox & Delegate Access</strong>
-                        <ol>
-                            <li>Go to <strong>Teams & groups &gt; Shared mailboxes</strong> and add <code>IT Helpdesk</code> (<code>helpdesk@ddsever.onmicrosoft.com</code>).</li>
-                            <li>Under <strong>Members</strong>, delegate <em>Read and Manage</em> and <em>Send As</em> permissions to the IT Department staff (Jordan Miller, David Vance, Marcus Chen, Elena Rostova).</li>
-                        </ol>
-                    </div>
                     <div class="img-container" onclick="openLightbox('assets/images/365_4.png', 'IT Helpdesk Shared Mailbox Panel')">
                         <img src="assets/images/365_4.png" alt="IT Helpdesk Shared Mailbox Panel">
                         <div class="img-caption">
-                            <span>Step 4: Shared Mailbox Delegation</span>
+                            <span>Shared Mailbox Deployment & Delegation</span>
                             <span class="expand-hint">Click to Expand</span>
                         </div>
                     </div>
                     <p class="item-desc">
-                        IT Helpdesk Shared Mailbox panel in the Admin Center showing delegated permissions across support agents without incurring additional individual user mailbox licensing fees.
+                        Provisioned the centralized IT Helpdesk shared mailbox (<code>helpdesk@ddsever.onmicrosoft.com</code>). Delegated <em>Read and Manage</em> and <em>Send As</em> authority across the 4-tier IT support staff (Jordan Miller, David Vance, Marcus Chen, and Elena Rostova), giving agents full operational access without spending unnecessary user license fees.
                     </p>
                     <blockquote class="github-note">
-                        <strong>GitHub Note:</strong> "Configured centralized IT Helpdesk shared mailbox (helpdesk@ddsever.onmicrosoft.com) and delegated Read/Manage and 'Send As' authority to the 4-tier IT support staff (jmiller, dvance, mchen, erostova) without incurring additional mailbox licensing costs."
+                        <strong>Technical Summary:</strong> Configured centralized IT Helpdesk shared mailbox (helpdesk@ddsever.onmicrosoft.com) and delegated Read/Manage and 'Send As' authority to the 4-tier IT support staff (jmiller, dvance, mchen, erostova) without incurring additional mailbox licensing costs.
                     </blockquote>
                 </div>
             </div>
 
-            <h3>Phase 4: Entra ID Security & Credential Management</h3>
+            <h3>Microsoft Entra ID Credential Management & Zero-Trust Security</h3>
+            <p class="bio">
+                The final phase models real-world Help Desk escalation scenarios: handling user access lockouts, resolving compromised authentication state, and enforcing tenant-wide Zero-Trust security rules directly inside the Microsoft Entra Admin Center.
+            </p>
+
             <div class="gallery">
                 <div>
-                    <div class="step-instructions">
-                        <strong>Step 5: Administrative Password Reset (Entra ID)</strong>
-                        <ol>
-                            <li>Open Microsoft Entra Admin Center (<code>entra.microsoft.com</code>) &gt; <strong>Identity &gt; Users &gt; All users</strong>.</li>
-                            <li>Select <strong>Jordan Miller</strong> and click <strong>Reset password</strong> in the action toolbar to generate initial sign-in credentials.</li>
-                        </ol>
-                    </div>
                     <div class="img-container" onclick="openLightbox('assets/images/365_5.png', 'Entra ID Password Reset Blade')">
                         <img src="assets/images/365_5.png" alt="Entra ID Password Reset Blade">
                         <div class="img-caption">
-                            <span>Step 5: Password Reset Blade</span>
+                            <span>Administrative Credential Reset (Entra ID)</span>
                             <span class="expand-hint">Click to Expand</span>
                         </div>
                     </div>
                     <p class="item-desc">
-                        Password reset confirmation blade in Entra ID displaying temporary credentials generated to resolve account access lockout tickets.
+                        Executed direct administrative password reset protocols within Microsoft Entra ID. This workflow generates secure temporary initial credentials to restore user access during credential loss or password expiry recovery tickets.
                     </p>
                     <blockquote class="github-note">
-                        <strong>GitHub Note:</strong> "Executed administrative password reset protocol directly in Entra ID, generating temporary initial sign-in credentials to resolve user account recovery tickets."
+                        <strong>Technical Summary:</strong> Executed administrative password reset protocol directly in Entra ID, generating temporary initial sign-in credentials to resolve user account recovery tickets.
                     </blockquote>
                 </div>
 
                 <div>
-                    <div class="step-instructions">
-                        <strong>Step 6: Account Lockout Simulation & MFA Re-Registration</strong>
-                        <ol>
-                            <li>In Entra ID under <strong>Users &gt; Jordan Miller &gt; Manage &gt; Authentication methods</strong>.</li>
-                            <li>Click <strong>Require re-register MFA</strong> and <strong>Revoke MFA sessions</strong> to force authentication method updates for compromised or lost devices.</li>
-                        </ol>
-                    </div>
                     <div class="img-container" onclick="openLightbox('assets/images/365_6.png', 'Authentication Methods Blade in Entra ID')">
                         <img src="assets/images/365_6.png" alt="Authentication Methods Blade in Entra ID">
                         <div class="img-caption">
-                            <span>Step 6: MFA Revocation & Re-Registration</span>
+                            <span>MFA Session Revocation & Re-Registration</span>
                             <span class="expand-hint">Click to Expand</span>
                         </div>
                     </div>
                     <p class="item-desc">
-                        Authentication methods blade for <code>jmiller@ddsever.onmicrosoft.com</code> displaying session revocation and mandatory MFA re-registration enforcement.
+                        Simulated response procedures for lost authentication devices and potential account compromise. Revoked active sign-in sessions and mandated immediate Multi-Factor Authentication (MFA) re-registration for <code>jmiller@ddsever.onmicrosoft.com</code> to secure the account before re-entry.
                     </p>
                     <blockquote class="github-note">
-                        <strong>GitHub Note:</strong> "Resolved account access lockout ticket: executed authentication session revocation and triggered mandatory Multi-Factor Authentication (MFA) re-registration in Entra ID."
+                        <strong>Technical Summary:</strong> Resolved account access lockout ticket: executed authentication session revocation and triggered mandatory Multi-Factor Authentication (MFA) re-registration in Entra ID.
                     </blockquote>
                 </div>
 
                 <div>
-                    <div class="step-instructions">
-                        <strong>Step 7: Enforce Security Controls via Conditional Access</strong>
-                        <ol>
-                            <li>In Entra Admin Center, navigate to <strong>Protection &gt; Conditional Access &gt; Policies</strong> and select <strong>New policy</strong>.</li>
-                            <li>Name: <code>CA001-Enforce-MFA-All-Users</code>. Target Scope: <em>All Users</em> (Excluding Global Admin <code>admin@ddsever.onmicrosoft.com</code> to prevent lockout). Target Apps: <em>All Cloud Apps</em>.</li>
-                            <li>Grant Controls: <strong>Require Multi-Factor Authentication</strong>.</li>
-                        </ol>
-                    </div>
                     <div class="img-container" onclick="openLightbox('assets/images/365_7.png', 'Conditional Access Policy Summary')">
                         <img src="assets/images/365_7.png" alt="Conditional Access Policy Summary">
                         <div class="img-caption">
-                            <span>Step 7: Conditional Access Policy Deployment</span>
+                            <span>Conditional Access Policy Enforcement</span>
                             <span class="expand-hint">Click to Expand</span>
                         </div>
                     </div>
                     <p class="item-desc">
-                        Conditional Access Policy summary screen displaying enforcement scope, excluded glass-break admin account, and mandatory MFA challenge controls across tenant applications.
+                        Authored and enforced an enterprise-wide Conditional Access Policy (<code>CA001-Enforce-MFA-All-Users</code>) requiring Multi-Factor Authentication verification for all corporate accounts accessing cloud applications. Configured explicit exclusion rules for the emergency breakout Global Admin account to prevent accidental lockout.
                     </p>
                     <blockquote class="github-note">
-                        <strong>GitHub Note:</strong> "Strengthened organizational security posture by authoring an Entra ID Conditional Access Policy requiring MFA verification across all tenant cloud applications for corporate users."
+                        <strong>Technical Summary:</strong> Strengthened organizational security posture by authoring an Entra ID Conditional Access Policy requiring MFA verification across all tenant cloud applications for corporate users.
                     </blockquote>
                 </div>
             </div>
