@@ -1,1 +1,225 @@
 
+<article class="portfolio-article">
+  <header class="article-header">
+    <h1 class="article-title">Microsoft 365 & Entra ID Security & Identity Management Lab</h1>
+    <p class="article-subtitle">A hands-on walk-through of core M365 administration, user lifecycle management, Exchange Online delegation, and Entra ID Conditional Access policies.</p>
+  </header>
+
+  <hr />
+
+  <!-- PHASE 1 -->
+  <section class="article-section">
+    <h2>Phase 1: Environment Setup</h2>
+    
+    <div class="step-block">
+      <h3>Step 1: Set Up Your Microsoft 365 Trial Tenant</h3>
+      <ol>
+        <li>Open a Private / Incognito browser window.</li>
+        <li>Go to the Microsoft 365 Business Premium product page and click <strong>Try free for 1 month</strong>.</li>
+        <li>
+          <strong>Sign-Up Flow:</strong>
+          <ul>
+            <li>Enter your email address to get started and select <strong>Set up account</strong>.</li>
+            <li>Enter your name (Damon Ditrichs), business name (DDSEVER Tech Lab or DDSEVER IT), and select company size (1 person).</li>
+            <li>Specify your sign-in identity: Set your domain name prefix to <code>ddsever</code>. Your domain will be <code>ddsever.onmicrosoft.com</code>.</li>
+            <li>Set your Global Admin username: <code>admin</code> (Full Admin ID: <code>admin@ddsever.onmicrosoft.com</code>).</li>
+            <li>Create a strong password and save your credentials.</li>
+          </ul>
+        </li>
+        <li>Complete the identity text verification and finish checking out.</li>
+        <li><strong>Turn off recurring billing immediately:</strong> Once setup finishes and you land on the confirmation page, go to <strong>Billing &gt; Your products</strong> in the portal, select your trial, and edit recurring billing to <strong>Off</strong> so you are never charged.</li>
+      </ol>
+
+      <div class="screenshot-container">
+        <img src="assets/images/365_1.png" alt="Microsoft 365 Admin Center Dashboard" class="article-img" />
+        <p class="caption"><strong>Screenshot 1:</strong> The Microsoft 365 Admin Center Dashboard (admin.microsoft.com) displaying active organization domain <code>ddsever.onmicrosoft.com</code> and active admin account <code>admin@ddsever.onmicrosoft.com</code>.</p>
+      </div>
+
+      <blockquote class="github-note">
+        <strong>GitHub Documentation Note:</strong> "Provisioned an enterprise Microsoft 365 tenant environment (ddsever.onmicrosoft.com) with full administrative rights to simulate enterprise cloud identity management and Help Desk escalation workflows."
+      </blockquote>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- PHASE 2 -->
+  <section class="article-section">
+    <h2>Phase 2: User Lifecycle &amp; Identity Management</h2>
+
+    <div class="step-block">
+      <h3>Step 2: Onboard a New Employee (User Provisioning)</h3>
+      <ol>
+        <li>Navigate to the Microsoft 365 Admin Center (<code>admin.microsoft.com</code>).</li>
+        <li>In the left navigation menu, go to <strong>Users &gt; Active users</strong> and click <strong>Add a user</strong>.</li>
+        <li>
+          <strong>Set up the basic info:</strong>
+          <ul>
+            <li><strong>First Name:</strong> Jordan | <strong>Last Name:</strong> Miller</li>
+            <li><strong>Display Name:</strong> Jordan Miller</li>
+            <li><strong>Username:</strong> <code>jmiller</code> (Email: <code>jmiller@ddsever.onmicrosoft.com</code>)</li>
+            <li><strong>Password:</strong> Select <em>Automatically generate a password</em> AND check <em>Require this user to change their password when they first sign in</em>.</li>
+          </ul>
+        </li>
+        <li>On the <strong>Product Licenses</strong> screen, select location and assign your Microsoft 365 Business Premium license.</li>
+        <li>
+          <strong>On the Optional Settings screen:</strong>
+          <ul>
+            <li><strong>Job Title:</strong> Tier 1 Help Desk Specialist</li>
+            <li><strong>Department:</strong> Information Technology</li>
+          </ul>
+        </li>
+        <li>Click <strong>Finish adding</strong> and save the temporary password.</li>
+      </ol>
+
+      <div class="screenshot-container">
+        <img src="assets/images/365_2.png" alt="Active User Profile for Jordan Miller" class="article-img" />
+        <p class="caption"><strong>Screenshot 2:</strong> The active user profile page for Jordan Miller showing assigned license, Department: Information Technology, domain <code>ddsever.onmicrosoft.com</code>, and Require password change enabled.</p>
+      </div>
+
+      <blockquote class="github-note">
+        <strong>GitHub Documentation Note:</strong> "Executed Tier 1 user provisioning onboarding standard operating procedures (SOP): created cloud user account, applied Role-Based Access Control (RBAC) attributes, assigned M365 Business Premium licensing, and enforced initial sign-in credential updates."
+      </blockquote>
+    </div>
+
+    <div class="step-block">
+      <h3>Step 3: Configure Security Groups &amp; Role-Based Access Control (RBAC)</h3>
+      <ol>
+        <li>In the Microsoft 365 Admin Center, go to <strong>Teams &amp; groups &gt; Active teams &amp; groups</strong> and select the <strong>Security</strong> tab.</li>
+        <li>Click <strong>Add a security group</strong>.</li>
+        <li>Set <strong>Name:</strong> <code>SG-IT-Support-Tier1</code> | <strong>Description:</strong> Security group for Tier 1 Help Desk staff.</li>
+        <li>Click <strong>Create group</strong>.</li>
+        <li>Click on <code>SG-IT-Support-Tier1</code>, go to the <strong>Members</strong> tab, click <strong>View all and manage members &gt; Add members</strong>, and add <code>jmiller@ddsever.onmicrosoft.com</code>.</li>
+      </ol>
+
+      <div class="screenshot-container">
+        <img src="assets/images/365_3.png" alt="Security Group Detail Panel" class="article-img" />
+        <p class="caption"><strong>Screenshot 3:</strong> The <code>SG-IT-Support-Tier1</code> security group detail panel displaying Jordan Miller as an active group member.</p>
+      </div>
+
+      <blockquote class="github-note">
+        <strong>GitHub Documentation Note:</strong> "Implemented Principle of Least Privilege via Security Group administration (SG-IT-Support-Tier1) to streamline bulk permission auditing and access control."
+      </blockquote>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- PHASE 3 -->
+  <section class="article-section">
+    <h2>Phase 3: Exchange Online &amp; Mailbox Administration</h2>
+
+    <div class="step-block">
+      <h3>Step 4: Create a Shared Mailbox &amp; Delegate Access</h3>
+      <p>Rather than paying for individual user licenses for team mailboxes, enterprise Help Desks deploy Shared Mailboxes and delegate access permissions to specific team members.</p>
+      <ol>
+        <li>In the Microsoft 365 Admin Center (<code>admin.microsoft.com</code>), go to <strong>Teams &amp; groups &gt; Shared mailboxes</strong>.</li>
+        <li>Click <strong>Add a shared mailbox</strong>.</li>
+        <li>Set <strong>Name:</strong> IT Helpdesk | <strong>Email:</strong> <code>helpdesk@ddsever.onmicrosoft.com</code>.</li>
+        <li>Click <strong>Save changes</strong>.</li>
+        <li>Select <strong>IT Helpdesk</strong> from the list, and under <strong>Members</strong>, click <strong>Edit</strong> next to Members.</li>
+        <li>
+          Click <strong>Add members</strong> and select your entire IT Department staff:
+          <ul>
+            <li>Jordan Miller (<code>jmiller@ddsever.onmicrosoft.com</code>)</li>
+            <li>David Vance (<code>dvance@ddsever.onmicrosoft.com</code>)</li>
+            <li>Marcus Chen (<code>mchen@ddsever.onmicrosoft.com</code>)</li>
+            <li>Elena Rostova (<code>erostova@ddsever.onmicrosoft.com</code>)</li>
+          </ul>
+        </li>
+        <li>Click <strong>Add</strong> to grant <em>Read and Manage</em> and <em>Send As</em> permissions across the support team.</li>
+      </ol>
+
+      <div class="screenshot-container">
+        <img src="assets/images/365_4.png" alt="IT Helpdesk Shared Mailbox Panel" class="article-img" />
+        <p class="caption"><strong>Screenshot 4:</strong> The IT Helpdesk Shared Mailbox detail panel in the Admin Center showing assigned Read and Manage / Send As permissions delegated to the IT team members.</p>
+      </div>
+
+      <blockquote class="github-note">
+        <strong>GitHub Documentation Note:</strong> "Configured centralized IT Helpdesk shared mailbox (helpdesk@ddsever.onmicrosoft.com) and delegated Read/Manage and 'Send As' authority to the 4-tier IT support staff (jmiller, dvance, mchen, erostova) without incurring additional mailbox licensing costs."
+      </blockquote>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- PHASE 4 -->
+  <section class="article-section">
+    <h2>Phase 4: Entra ID Security &amp; Credential Management</h2>
+
+    <div class="step-block">
+      <h3>Step 5: Reset Password &amp; Administrative Credentials (Entra ID)</h3>
+      <p>Direct administrative password reset procedure executed within the Microsoft Entra Admin Center.</p>
+      <ol>
+        <li>Open the Microsoft Entra Admin Center (<code>entra.microsoft.com</code>).</li>
+        <li>Go to <strong>Identity &gt; Users &gt; All users</strong>.</li>
+        <li>Search for and select <strong>Jordan Miller</strong>.</li>
+        <li>Click <strong>Reset password</strong> in the top action toolbar.</li>
+        <li>Copy the newly generated temporary password from the confirmation blade.</li>
+      </ol>
+
+      <div class="screenshot-container">
+        <img src="assets/images/365_5.png" alt="Entra ID Password Reset Blade" class="article-img" />
+        <p class="caption"><strong>Screenshot 5:</strong> Password reset confirmation blade in Entra ID displaying the generated temporary credentials for user account recovery.</p>
+      </div>
+
+      <blockquote class="github-note">
+        <strong>GitHub Documentation Note:</strong> "Executed administrative password reset protocol directly in Entra ID, generating temporary initial sign-in credentials to resolve user account recovery tickets."
+      </blockquote>
+    </div>
+
+    <div class="step-block">
+      <h3>Step 6: Simulate a Lockout &amp; Reset User MFA / Authentication Methods</h3>
+      <p>Simulates a standard Help Desk ticket: a user breaks/loses their MFA phone or gets locked out of their account.</p>
+      <ol>
+        <li>In the Microsoft Entra Admin Center (<code>entra.microsoft.com</code>), go to <strong>Identity &gt; Users &gt; All users</strong>.</li>
+        <li>Search for and select <strong>Jordan Miller</strong> (<code>jmiller@ddsever.onmicrosoft.com</code>).</li>
+        <li>In the left sub-menu under <strong>Manage</strong>, click <strong>Authentication methods</strong>.</li>
+        <li>At the top of the pane, click <strong>Require re-register MFA</strong> (or click <strong>Revoke MFA sessions</strong>).</li>
+        <li>Confirm the prompt when asked.</li>
+      </ol>
+
+      <div class="screenshot-container">
+        <img src="assets/images/365_6.png" alt="Authentication Methods Blade in Entra ID" class="article-img" />
+        <p class="caption"><strong>Screenshot 6:</strong> The Authentication methods blade for jmiller@ddsever.onmicrosoft.com displaying the confirmation banner that user sessions were revoked and MFA re-registration was mandated.</p>
+      </div>
+
+      <blockquote class="github-note">
+        <strong>GitHub Documentation Note:</strong> "Resolved account access lockout ticket: executed authentication session revocation and triggered mandatory Multi-Factor Authentication (MFA) re-registration in Entra ID."
+      </blockquote>
+    </div>
+
+    <div class="step-block">
+      <h3>Step 7: Enforce Security Controls via Conditional Access</h3>
+      <p>Implements Zero-Trust security rules across tenant accounts.</p>
+      <ol>
+        <li>In the Entra Admin Center, navigate to <strong>Protection &gt; Conditional Access &gt; Policies</strong>.</li>
+        <li>Click <strong>New policy</strong>.</li>
+        <li>Set <strong>Name:</strong> <code>CA001-Enforce-MFA-All-Users</code>.</li>
+        <li>
+          <strong>Under Assignments:</strong>
+          <ul>
+            <li><strong>Users:</strong> Select <em>All users</em> (Click <em>Exclude</em> and select your Global Admin account <code>admin@ddsever.onmicrosoft.com</code> to prevent administrative lockout).</li>
+            <li><strong>Target resources:</strong> Select <em>All cloud apps</em>.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Under Access controls &gt; Grant:</strong>
+          <ul>
+            <li>Select <strong>Grant access</strong>, check <strong>Require multifactor authentication</strong>, and click <strong>Select</strong>.</li>
+          </ul>
+        </li>
+        <li>Set <strong>Enable policy</strong> to <em>Report-only</em> (or <em>On</em>) and click <strong>Create</strong>.</li>
+      </ol>
+
+      <div class="screenshot-container">
+        <img src="assets/images/365_7.png" alt="Conditional Access Policy Summary" class="article-img" />
+        <p class="caption"><strong>Screenshot 7:</strong> The Conditional Access Policy summary screen displaying policy name (CA001-Enforce-MFA-All-Users), target scope (All Cloud Apps), excluded admin account, and enforced control (Require MFA).</p>
+      </div>
+
+      <blockquote class="github-note">
+        <strong>GitHub Documentation Note:</strong> "Strengthened organizational security posture by authoring an Entra ID Conditional Access Policy requiring MFA verification across all tenant cloud applications for corporate users."
+      </blockquote>
+    </div>
+  </section>
+</article>
